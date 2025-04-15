@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | FosterPet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/Sdashboard.css" rel="stylesheet" />
+  <style>
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar {
+      width: 250px;
+    }
+    .sidebar-menu a:hover {
+      background-color: #495057;
+    }
+    .section-heading {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <button class="btn btn-outline-light me-3" id="menu-toggle">
+        ☰
+      </button>
+      <span class="navbar-brand fw-semibold">Admin Dashboard</span>
+      <div class="d-flex ms-auto">
+        <a href="#settings" class="btn btn-outline-light me-2">Settings</a>
+        <a href="#logout" class="btn btn-danger">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="d-flex" id="wrapper">
+    <!-- Main Content -->
+    <div id="page-content-wrapper" class="w-100">
+      <div class="container-fluid p-4">
+        <h2 id="dashboard" class="section-heading">Welcome to the FosterPet Admin Dashboard</h2>
+        <p>This centralized admin dashboard helps you oversee and manage key aspects of the FosterPet platform including pets, users, applications, donations, and more. Use the sidebar to navigate between sections.</p>
+
+        <div class="row my-4">
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5>Total Pets</h5>
+                <p class="text-muted mb-0">134 registered</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5>Pending Applications</h5>
+                <p class="text-muted mb-0">27 to review</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5>Total Donations</h5>
+                <p class="text-muted mb-0">$12,450 collected</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="pets" class="my-5">
+          <h4 class="section-heading">Manage Pets</h4>
+          <p>Maintain the pet database by adding new animals, updating profiles, or removing inactive listings.</p>
+          <ul>
+            <li>Add or edit pet profiles</li>
+            <li>Update photos and medical info</li>
+            <li>Track foster/adoption status</li>
+          </ul>
+        </div>
+
+        <div id="applications" class="my-5">
+          <h4 class="section-heading">Adoption & Foster Applications</h4>
+          <p>Quickly review incoming adoption and foster applications.</p>
+          <ul>
+            <li>View applicant details</li>
+            <li>Assign reviewers</li>
+            <li>Auto-send email notifications</li>
+          </ul>
+        </div>
+
+        <div id="users" class="my-5">
+          <h4 class="section-heading">Users</h4>
+          <p>Oversee user accounts including adopters, pet owners, and shelter partners.</p>
+          <ul>
+            <li>Ban/report suspicious users</li>
+            <li>Grant admin/mod access</li>
+            <li>Analyze user trends</li>
+          </ul>
+        </div>
+
+        <div id="messages" class="my-5">
+          <h4 class="section-heading">Messages</h4>
+          <p>Facilitate safe and moderated communication between shelters and adopters.</p>
+          <ul>
+            <li>Search message history</li>
+            <li>Filter by user or date</li>
+            <li>Flag for moderation</li>
+          </ul>
+        </div>
+
+        <div id="donations" class="my-5">
+          <h4 class="section-heading">Donations</h4>
+          <p>Track donation history and generate monthly reports.</p>
+          <ul>
+            <li>Monitor real-time donations</li>
+            <li>Export reports to CSV</li>
+            <li>Manage donor communications</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="bg-secondary sidebar position-fixed" id="sidebar-wrapper">
+      <div class="list-group list-group-flush sidebar-menu">
+        <a href="#dashboard" class="list-group-item list-group-item-action">Dashboard</a>
+        <a href="#pets" class="list-group-item list-group-item-action">Manage Pets</a>
+        <a href="#applications" class="list-group-item list-group-item-action">Applications</a>
+        <a href="#users" class="list-group-item list-group-item-action">Users</a>
+        <a href="#messages" class="list-group-item list-group-item-action">Messages</a>
+        <a href="#donations" class="list-group-item list-group-item-action">Donations</a>
+        <a href="#settings" class="list-group-item list-group-item-action">Settings</a>
+        <a href="#logout" class="list-group-item list-group-item-action">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const toggleButton = document.getElementById("menu-toggle");
+    const wrapper = document.getElementById("wrapper");
+    const sidebar = document.getElementById("sidebar-wrapper");
+
+    toggleButton.addEventListener("click", () => {
+      sidebar.classList.toggle("show-sidebar");
+    });
+  </script>
+</body>
+</html>

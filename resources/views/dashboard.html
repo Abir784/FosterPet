@@ -48,17 +48,13 @@
         <!-- Top Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom px-4">
             <div class="container-fluid">
-              <button class="btn btn-outline-secondary me-3" id="menu-toggle">
-                ☰
-              </button>
               <span class="navbar-brand fw-semibold">Admin Dashboard</span>
-              <div class="d-flex ms-auto">
+              <div class="d-flex">
                 <a href="#settings" class="btn btn-outline-secondary me-2">Settings</a>
                 <a href="#logout" class="btn btn-outline-danger">Logout</a>
               </div>
             </div>
         </nav>
-
 
         <!-- Dashboard Content -->
       <!--  <div class="container-fluid p-4">-->
@@ -144,15 +140,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-<script>
-    const toggleButton = document.getElementById("menu-toggle");
-    const wrapper = document.getElementById("wrapper");
-    const sidebar = document.getElementById("sidebar-wrapper");
 
-    toggleButton.addEventListener("click", () => {
-      sidebar.classList.toggle("d-none");
-    });
-</script>
+
+</body>
+
 
 </html>

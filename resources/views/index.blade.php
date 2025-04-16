@@ -84,8 +84,31 @@
           <li class="nav-item"><a class="nav-link" href="#fostering">Fostering</a></li>
           <li class="nav-item"><a class="nav-link" href="#pets">Pets</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-          <li class="nav-item"><a class="btn btn-outline-warning me-2" href="#">Learn More</a></li>
-          <li class="nav-item"><a class="btn btn-yellow" href="#">Get Started</a></li>
+
+            <li class="nav-item">
+                @auth
+                    <a
+                        href="{{ url('/dashboard') }}"
+                        class="btn btn-yellow"   >
+                        Dashboard
+                    </a>
+                @else
+                    <a
+                        href="{{ route('login') }}" class="btn btn-yellow"
+                    >
+                        Log in
+                    </a>
+
+                    @if (Route::has('register'))
+                        <a
+                            href="{{ route('register') }}"
+                            class="btn btn-yellow">
+                            Register
+                        </a>
+                    @endif
+                @endauth
+            </nav>
+      </li>
         </ul>
       </div>
     </div>

@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pet Details Form</title>
-  <link rel="stylesheet" href="admin_dashboard_form.css" />
-</head>
-<body>
-  <div class="form-container">
+<x-app-layout>
+ <div class="form-container">
     <h2> 🐾 Add Pet Details</h2>
     <form>
       <div class="form-row">
@@ -37,5 +29,5 @@
       <button type="submit" class="form-button">Submit</button>
     </form>
   </div>
-</body>
-</html>
+</x-app-layout>
+ 

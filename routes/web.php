@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/saud', function () {
-    return view('saud2');
+    return view('admin_dashboard_form');
 });
 
 

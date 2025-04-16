@@ -9,7 +9,7 @@
         </div>
         <div class="form-group">
           <label for="age">📅 Age</label>
-          <input type="number" id="age" name="age" placeholder="Enter pet's age" required />
+          <input type="text" id="age" name="age" placeholder="Enter pet's age" required />
         </div>
       </div>
       <div class="form-row">

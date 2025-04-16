@@ -5,24 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard | FosterPet</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/dashboard.css" />
-  <style>
-    .card {
-      border-radius: 1rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .sidebar {
-      width: 250px;
-    }
-    .sidebar-menu a:hover {
-      background-color: #495057;
-    }
-    .section-heading {
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="saud.css" />
+ 
 </head>
 <body>
 
@@ -47,17 +31,14 @@
     <div id="page-content-wrapper" class="w-100" style="margin-left: 250px;">
         <!-- Top Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom px-4">
-            <div class="container-fluid">
-              <button class="btn btn-outline-secondary me-3" id="menu-toggle">
-                ☰
-              </button>
-              <span class="navbar-brand fw-semibold">Admin Dashboard</span>
-              <div class="d-flex ms-auto">
-                <a href="#settings" class="btn btn-outline-secondary me-2">Settings</a>
-                <a href="#logout" class="btn btn-outline-danger">Logout</a>
-              </div>
+          <div class="container-fluid">
+            <span class="navbar-brand fw-semibold">Admin Dashboard</span>
+            <div class="d-flex">
+              <a href="#settings" class="btn btn-outline-secondary me-2">Settings</a>
+              <a href="#logout" class="btn btn-outline-danger">Logout</a>
             </div>
-        </nav>
+          </div>
+      </nav>
 
 
         <!-- Dashboard Content -->
@@ -65,7 +46,7 @@
           <!-- ... existing dashboard content here ... -->
 
     <div class="container-fluid p-4">
-      <h2 id="dashboard" class="section-heading">Welcome to the FosterPet Admin Dashboard</h2>
+     
       <p>This centralized admin dashboard helps you oversee and manage key aspects of the FosterPet platform including pets, users, applications, donations, and more. Use the sidebar to navigate between sections.</p>
 
       <div class="row my-4">
@@ -143,16 +124,7 @@
   </div>
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<script>
-    const toggleButton = document.getElementById("menu-toggle");
-    const wrapper = document.getElementById("wrapper");
-    const sidebar = document.getElementById("sidebar-wrapper");
-
-    toggleButton.addEventListener("click", () => {
-      sidebar.classList.toggle("d-none");
-    });
-</script>
-
 </html>

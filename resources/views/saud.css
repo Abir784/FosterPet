@@ -1,0 +1,140 @@
+/* BODY */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+  }
+  
+  /* SIDEBAR */
+  .sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #343a40, #212529);
+    background-color: #B4EBE6 ;
+  }
+  
+  .sidebar-heading {
+    background: #B4EBE6;
+    color: #ffc107;
+    letter-spacing: 1px;
+  }
+  
+  .sidebar-menu a {
+    transition: all 0.3s ease;
+    font-weight: 500;
+    padding: 15px 20px;
+    display: block;
+    text-decoration: none;
+    border-left: 4px solid transparent;
+  }
+  
+  .sidebar-menu a:hover,
+  .sidebar-menu a:focus {
+    background-color: #B4EBE6;
+    color: #17a2b8;
+    border-left: 4px solid #26c5c8;
+  }
+  
+  /* NAVBAR */
+  .navbar {
+    background-color: #80CBC4 !important; /* Dark slate gray */
+    color: #fff;
+  }
+  
+  .navbar .navbar-brand {
+    color: #ffc107;
+    font-weight: 600;
+  }
+  
+  .navbar .btn-outline-secondary {
+    border-color: #ffc107;
+    color: #ffc107;
+  }
+  
+  .navbar .btn-outline-secondary:hover {
+    background-color: #ffc107;
+    color: #1f2937;
+  }
+  
+  .navbar .btn-outline-danger {
+    border-color: #ffc107;
+    color: #ffc107;
+  }
+  
+  .navbar .btn-outline-danger:hover {
+    background-color: #ffc107;
+    color: #212529;
+  }
+  
+  /* DASHBOARD SUMMARY CARDS (Dark-themed) */
+  .card {
+    border-radius: 1rem;
+    color: #f8f9fa;
+    background-color: #1f2937; /* Matches navbar */
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    background-color: #343a40; /* Slightly lighter on hover */
+  }
+  
+  .card h5 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffc107; /* Highlighted heading */
+  }
+  
+  .card p {
+    color: #ffc107;
+    margin-bottom: 0;
+  }
+  
+  /* SECTION HEADINGS */
+  .section-heading {
+    border-bottom: 2px solid #0d6efd;
+    color: #0d6efd;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* LIST ITEMS */
+  ul li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  ul li::before {
+    content: "✔";
+    color: #198754;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 0.85rem;
+  }
+  
+  /* PAGE WRAPPER */
+  #page-content-wrapper {
+    background: linear-gradient(180deg, #f1f4f6 0%, #ffffff 100%);
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+  
+    #page-content-wrapper {
+      margin-left: 0 !important;
+    }
+  
+    .navbar .btn {
+      margin-bottom: 10px;
+    }
+  }
+  

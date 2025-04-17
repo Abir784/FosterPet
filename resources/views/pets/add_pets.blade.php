@@ -21,21 +21,36 @@
         </div>
         <div class="form-group">
           <label for="health">❤️ Health Condition</label>
-          <textarea id="health" name="health"  placeholder="Describe health condition" required></textarea>
-        </div>
+          <input type="text" id="health" name="health" placeholder="Enter health condition" required />        </div>
       </div>
       <div class="form-row">
       <div class="form-group">
           <label for="breed">🐕 color</label>
           <input type="text" id="breed" name="breed" placeholder="Enter breed" required />
         </div>
+        <div class="form-group">
+        <label for="image">Upload Pet Image:</label>
+        <input type="file" name="image" id="breed" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="breed">🐕 remarks</label>
+          <input type="text" id="breed" name="breed" placeholder="Enter remarks" required />
+        </div>
       </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="breed">🐕 location</label>
+          <input type="text" id="breed" name="breed" placeholder="Enter location" required />
+        </div>
       <div class="form-group full-width">
         <label for="temperament">😺 Temperament</label>
-        <textarea id="temperament" name="temperament" placeholder="Describe temperament" required></textarea>
+        <input type="text" id="temperament" name="temperament" placeholder="Describe temperament" required></input>
       </div>
-      <button type="submit" class="form-button">Submit</button>
+      
     </form>
   </div>
+  <div>
+      <button type="submit" class="form-button">Submit</button>
+      </div>
 </x-app-layout>
  

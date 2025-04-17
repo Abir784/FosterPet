@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('location');
             $table->string('remarks');
             $table->integer('owner_id');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

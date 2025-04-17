@@ -80,6 +80,16 @@ class PetsController extends Controller
     //         'temperament' => 'required|string|max:255',
             // 'location' => 'required|string|max:255',
             // 'remarks' => 'required|string|max:255',
+    //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
+    // ]);
+
+    // $imagePath = null;
+    // if ($request->hasFile('image')) {
+    //     $image = $request->file('image');
+    //     $imageName = time() . '_' . $image->getClientOriginalName();
+    //     $imagePath = $image->storeAs('pets', $imageName, 'public');
+    // }
+    
 
             
        // ]);
@@ -93,6 +103,7 @@ class PetsController extends Controller
             'location' => $request->location,
             'remarks' => $request->remarks,
             'owner_id' => 1,
+            'image' => $imagePath,
         ]);
 
         return back()->with('success', 'Pet information saved successfully!');

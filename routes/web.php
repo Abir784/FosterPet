@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 Route::get('/saud', function () {
     return view('admin_dashboard_form');
-});
+})->middleware(['auth', 'verified']);
 
 
 Route::get('/dashboard', function () {

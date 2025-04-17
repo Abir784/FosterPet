@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/pets', [PetsController::class, 'update_pet'])->name('pets.update_pet');
     Route::delete('/pets', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
     Route::get("/pets",[PetsController::class,"show_pets"])->name('show.pets');
+
 });
 
 
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
 require __DIR__.'/auth.php';

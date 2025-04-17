@@ -1,7 +1,9 @@
 <x-app-layout>
+
  <div class="form-container">
     <h2> 🐾 Add Pet Details</h2>
-    <form>
+    <form action="{{route('add_pets.post')}}" method="post" enctype="multipart/form-data">
+    @csrf
       <div class="form-row">
         <div class="form-group">
           <label for="name">🐶Name</label>
@@ -20,6 +22,12 @@
         <div class="form-group">
           <label for="health">❤️ Health Condition</label>
           <textarea id="health" name="health"  placeholder="Describe health condition" required></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+      <div class="form-group">
+          <label for="breed">🐕 color</label>
+          <input type="text" id="breed" name="breed" placeholder="Enter breed" required />
         </div>
       </div>
       <div class="form-group full-width">

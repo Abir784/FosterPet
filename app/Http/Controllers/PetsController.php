@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //use Illuminate\Http\Request;
 use App\Http\Requests\PetsUpdateRequest;
+use App\Models\pets;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,15 +14,15 @@ use Illuminate\View\View;
 
 class PetsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+    public function add_pets(){
+        return view('pets.add_pets');
     }
-    public function add_pets($id){
-        return view('pets.add_pets',[
-            'pet_id'=>$id,
-        ]);
-    }
+
+
     public function show_pets(){
         $pets = pets::where('user_id',Auth::id())->get();
         return view("pets.show_pets",[
@@ -29,82 +30,76 @@ class PetsController extends Controller
         ]);
     }
 
-    public function update_pet(PetsUpdateRequest $request): RedirectResponse
-    {
-        $request->pets()->fill($request->validated());
+    public function update_pets(Request $request){
+        // print_r($request->all());
 
-        if ($request->pets()->isDirty('email')) {
-            $request->pets()->email_verified_at = null;
-        }
+         $request->validate(
+             [
+                 'name' => 'required',
+                 'age' => 'required',
+                 'breed' => 'required',
+                 'location' => 'required',
+             ],
+             [
+                 'name.required' => 'Name is required',
+                 'age.required' => 'Age is required',
+                 'breed.required' => 'Breed is required',
+                 'location.required' => 'location is required',
+                 //'phone_number.numeric' => 'Phone number must be numeric',
+             ]
+             );
+            pets::where('id',Auth::user()->id)->update([
+             'name' => $request->name,
+             'location' => $request->location,
+             'color' => $request->color,
+             'breed' => $request->breed,
+             'updated_at' => Carbon::now(),
+            ]);// id check kore
 
-        $request->pets()->save();
 
-        return Redirect::route('pets.add_pets')->with('status', 'pets-info-updated');
+
+            return back()->with('success','Pets Updated Successfully');
+           // return redirect()->route('profile_update')->with('success','Profile Updated Successfully');
+
+
+     }
+
+
+    public function destroy_pet($id){
+        pets::find($id)->delete();
+        return back()->with('success','Deleted Successfully');
     }
 
-    public function destroy_pet(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('petDeletion', [
-            'password' => ['required', 'current_password'],
+    public function add_pets_post(Request $request){
+        //$request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'age' => 'required|integer|min:0',
+    //         'breed' => 'required|string|max:255',
+    //         'color' => 'required|string|max:255',
+    //         'health_condition' => 'required|string|max:255',
+    //         'temperament' => 'required|string|max:255',
+            // 'location' => 'required|string|max:255',
+            // 'remarks' => 'required|string|max:255',
+
+            
+       // ]);
+        pets::create([
+            'name' => $request->name,
+            'age' => $request->age,
+            'breed' => $request->breed,
+            'health_condition' => $request->health_condition,
+            'temperament' => $request->temperament,
+            'color' => $request->color,
+            'location' => $request->location,
+            'remarks' => $request->remarks,
+            'owner_id' => 1,
         ]);
 
-        $pets = $request->pets();
-
-        Auth::logout();
-
-        $pets->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return back()->with('success', 'Pet information saved successfully!');
     }
 
-    public function donation_form_post(Request $request){
-        $campaign=Campaign::select('title','goal','goal_raised','added_by')->where('id',$request->campaign_id)->first();
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'city' => 'required',
-            'zipcode' => 'required',
-            'donation_amount' => 'required|numeric|max:'.($campaign-> goal - $campaign->goal_raised),
-            ],[
-                'donation_amount.max'=>'You can donate up to '.($campaign->goal - $campaign->goal_raised),
-            ]);
-
-        if(($campaign-> goal - $campaign->goal_raised) < ($request->donation_amount)){
-            return back()->with('error','Please Check The Required Goal');
-        }else{
-            //all existing code
-            Donation::create([
-                'user_id'=>$request->user_id,
-                'campaign_id'=>$request->campaign_id,
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'city'=>$request->city,
-                'zipcode'=>$request->zipcode,
-                'donation_amount'=>$request->donation_amount,
-                'payment_status'=>0,
-                'created_at'=>Carbon::now(),
-            ]);
-
-            $details =[
-                'name'=>Auth::user()->name,
-                'amount'=>$request->donation_amount,
-                'title'=>$campaign->title,
-            ];
-            $email=$campaign->posted_by->email;
-
-            Notification::route('mail',$email)->notify(new NotifyMe($details));
-
-            return redirect(route('paypal.payment',['amount'=>$request->donation_amount,
-            'campaign_id'=>$request->campaign_id,
-        ]));
-
-        }
-
 }
 
-}
+
 
     

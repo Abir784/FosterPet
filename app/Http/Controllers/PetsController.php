@@ -29,34 +29,43 @@ class PetsController extends Controller
         ]);
     }
 
-    public function update_pet(PetsUpdateRequest $request): RedirectResponse
-    {
-        $request->pets()->fill($request->validated());
+    public function update_pets(Request $request){
+        // print_r($request->all());
 
-        if ($request->pets()->isDirty('email')) {
-            $request->pets()->email_verified_at = null;
-        }
+         $request->validate(
+             [
+                 'name' => 'required',
+                 'age' => 'required',
+                 'breed' => 'required',
+                 'location' => 'required',
+             ],
+             [
+                 'name.required' => 'Name is required',
+                 'age.required' => 'Age is required',
+                 'breed.required' => 'Breed is required',
+                 'location.required' => 'location is required',
+                 //'phone_number.numeric' => 'Phone number must be numeric',
+             ]
+             );
+            pets::where('id',Auth::user()->id)->update([
+             'name' => $request->name,
+             'location' => $request->location,
+             'color' => $request->color,
+             'breed' => $request->breed,
+             'updated_at' => Carbon::now(),
+            ]);// id check kore
 
-        $request->pets()->save();
 
-        return Redirect::route('pets.add_pets')->with('status', 'pets-info-updated');
-    }
 
-    public function destroy_pet(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('petDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+            return back()->with('success','Pets Updated Successfully');
+           // return redirect()->route('profile_update')->with('success','Profile Updated Successfully');
 
-        $pets = $request->pets();
 
-        Auth::logout();
+     }
 
-        $pets->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+    public function destroy_pet($id){
+        pets::find($id)->delete();
+        return back()->with('success','Deleted Successfully');
     }
 }

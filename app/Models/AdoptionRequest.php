@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdoptionRequest extends Model
 {
-    //
+     protected $fillable = ['adopterID', 'status'];
+
+     /**
+      * Relationship to the User (adopter)
+      */
+     public function adopter()
+     {
+         return $this->belongsTo(User::class, 'adopterID');
+     }
 }

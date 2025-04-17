@@ -10,7 +10,7 @@ Route::get('/', function () {
 
 //Route::get('/pets', function () {
    // return view('admin_dashboard_form');
-  // return view('pets.show_pets');
+  // return view('pets.add_pets');
 //});
 
 Route::middleware('auth')->group(function () {

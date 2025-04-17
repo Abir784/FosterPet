@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 //use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,12 +39,14 @@ class PetsController extends Controller
                  'age' => 'required',
                  'breed' => 'required',
                  'location' => 'required',
+                 'health condition' => 'required',
              ],
              [
                  'name.required' => 'Name is required',
                  'age.required' => 'Age is required',
                  'breed.required' => 'Breed is required',
                  'location.required' => 'location is required',
+                 'health condition' => 'health condition is required'
                  //'phone_number.numeric' => 'Phone number must be numeric',
              ]
              );
@@ -52,6 +55,7 @@ class PetsController extends Controller
              'location' => $request->location,
              'color' => $request->color,
              'breed' => $request->breed,
+             'health condition' => $request->health_condition,
              'updated_at' => Carbon::now(),
             ]);// id check kore
 
@@ -59,7 +63,6 @@ class PetsController extends Controller
 
             return back()->with('success','Pets Updated Successfully');
            // return redirect()->route('profile_update')->with('success','Profile Updated Successfully');
-
 
      }
 

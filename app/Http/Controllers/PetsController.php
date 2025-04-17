@@ -64,21 +64,8 @@ class PetsController extends Controller
      }
 
 
-    public function destroy_pet(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('petDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $pets = $request->pets();
-
-        Auth::logout();
-
-        $pets->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+    public function destroy_pet($id){
+        pets::find($id)->delete();
+        return back()->with('success','Deleted Successfully');
     }
 }

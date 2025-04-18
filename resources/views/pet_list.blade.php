@@ -17,7 +17,7 @@
                             Status:<br>
                             <span class="badge bg-success"> {{ $req->status}}</span>
                         </p>
-                        <a href="#" class="btn btn-primary mb-4 mt-4">Change Status</a> <br>
+                        <a href="{{ route('adoption.index')}}"class="btn btn-primary mb-4 mt-4">Change Status</a> <br>
                         <a href="#" class="btn btn-primary">View  Details</a>
                     </div>
                 </div>

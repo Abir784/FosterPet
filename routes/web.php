@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
 
 
     // User Profile routes
+   // Route::get('/adoption_request', [AdoptionController::class, 'index'])->name('profile');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -33,8 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/pets/delete', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
     Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');
     Route::get("/pets/adopt/show",[AdoptionController::class,"adpotion_list"])->name('track.requests');
-
+    Route::get('/adoption/status', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
+    Route::post('/adoption/status_post', [AdoptionController::class, 'updateStatus'])->name('adoption.update');
+    
 });
+
 
 
 

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <div class="container">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 shadow-sm px-3 rounded">
@@ -47,4 +45,5 @@
         @endforeach
     </div>
 </div>
-@endsection
+
+</x-app-layout>

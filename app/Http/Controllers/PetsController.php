@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
+use App\Models\pets;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

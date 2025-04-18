@@ -14,14 +14,18 @@
                     </div>
                   </th>
 
-               <!--   <th scope="col">Campaign Title</th>
-                  <th scope="col">Donated Amount</th> -->
+                 <th scope="col">Name</th>
+                  <th scope="col">Breed</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Color</th>
+                  <th scope="col">Location</th>
 
                 </tr>
               </thead>
 
 
-            
+
             </table>
           </div>
         </div>

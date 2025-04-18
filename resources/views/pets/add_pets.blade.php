@@ -25,7 +25,7 @@
       </div>
       <div class="form-row">
       <div class="form-group">
-          <label for="breed">🐕 color</label>
+          <label for="breed"> color</label>
           <input type="text" id="breed" name="breed" placeholder="Enter breed" required />
         </div>
         <div class="form-group">

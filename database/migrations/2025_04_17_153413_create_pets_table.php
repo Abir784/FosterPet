@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->integer('age');
             $table->string('breed');
-            $table->string('type');
             $table->string('color');
+            $table->string('health_condition');
+            $table->string('temperament');
             $table->string('location');
             $table->string('remarks');
             $table->integer('owner_id');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

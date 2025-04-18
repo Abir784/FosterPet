@@ -6,7 +6,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
 use App\Models\pets;
+<<<<<<< HEAD
+=======
 use Carbon\Carbon;
+>>>>>>> 8b00491ccf93861570f1da6a8bce4619275149b4
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,15 +19,15 @@ use Illuminate\View\View;
 
 class PetsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+    public function add_pets(){
+        return view('pets.add_pets');
     }
-    public function add_pets($id){
-        return view('pets.add_pets',[
-            'pet_id'=>$id,
-        ]);
-    }
+
+
     public function show_pets(){
         $pets = pets::where('user_id',Auth::id())->get();
         return view("pets.show_pets",[
@@ -73,4 +76,48 @@ class PetsController extends Controller
         pets::find($id)->delete();
         return back()->with('success','Deleted Successfully');
     }
+
+    public function add_pets_post(Request $request){
+        //$request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'age' => 'required|integer|min:0',
+    //         'breed' => 'required|string|max:255',
+    //         'color' => 'required|string|max:255',
+    //         'health_condition' => 'required|string|max:255',
+    //         'temperament' => 'required|string|max:255',
+            // 'location' => 'required|string|max:255',
+            // 'remarks' => 'required|string|max:255',
+    //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
+    // ]);
+
+    // $imagePath = null;
+    // if ($request->hasFile('image')) {
+    //     $image = $request->file('image');
+    //     $imageName = time() . '_' . $image->getClientOriginalName();
+    //     $imagePath = $image->storeAs('pets', $imageName, 'public');
+    // }
+    
+
+            
+       // ]);
+        pets::create([
+            'name' => $request->name,
+            'age' => $request->age,
+            'breed' => $request->breed,
+            'health_condition' => $request->health_condition,
+            'temperament' => $request->temperament,
+            'color' => $request->color,
+            'location' => $request->location,
+            'remarks' => $request->remarks,
+            'owner_id' => 1,
+            'image' => $imagePath,
+        ]);
+
+        return back()->with('success', 'Pet information saved successfully!');
+    }
+
 }
+
+
+
+    

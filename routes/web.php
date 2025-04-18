@@ -7,12 +7,29 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetsController;
 
 
+
 // Home page
 Route::get('/', function () {
     return view('index');
 });
 
+<<<<<<< HEAD
+// Route::get('/pets', function () {
+// //    return view('admin_dashboard_form');
+//   return view('pets.add_pets');
+// });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/pets/add',[PetsController::class,'add_pets'])->name('pets.add_pets');
+    Route::post('/pets/update', [PetsController::class, 'update_pets'])->name('pets.update_pet');
+    Route::delete('/pets/delete', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
+    Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');
+    Route::post("/pets/post",[PetsController::class,"add_pets_post"])->name('add_pets.post');
+
+});
+=======
+
+>>>>>>> 8b00491ccf93861570f1da6a8bce4619275149b4
 
 // Dashboard
 Route::get('/dashboard', function () {

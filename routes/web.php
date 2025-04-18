@@ -22,8 +22,6 @@ Route::get('/dashboard', function () {
 // Routes that require login
 Route::middleware('auth')->group(function () {
 
-
-
     // User Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

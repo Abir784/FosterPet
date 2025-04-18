@@ -1,10 +1,12 @@
 <x-app-layout>
-    <div class="dashboard-section-container m-5">
+    <div class="m-5 dashboard-section-container">
         <div class="feature-card">
+        <a href="{{ route('pets.update_pet')}}">
           <h5>Manage Pets</h5>
+        </a>
           <p>Maintain the pet database by adding new animals, updating profiles, or removing inactive listings.</p>
-          <ul>
-            <li>Add or edit pet profiles</li>
+          <ul class="sidebar-menu" id="sidebar-menu">
+            <li> Add or edit pet profiles</li>
             <li>Update photos and medical info</li>
             <li>Track foster/adoption status</li>
           </ul>

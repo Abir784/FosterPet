@@ -1,33 +1,33 @@
-<<<<<<< HEAD
+
 body {
     overflow-x: hidden;
     font-family: 'Segoe UI', sans-serif;
   }
-  
+
   #wrapper {
     display: flex;
   }
-  
+
   #sidebar-wrapper {
     width: 250px;
     height: 100vh;
     overflow-y: auto;
   }
-  
+
   .sidebar-heading {
     background-color: #343a40;
     color: #ffc107;
   }
-  
+
   .sidebar-menu {
     max-height: calc(100vh - 100px);
     overflow-y: auto;
   }
-  
+
   .sidebar-menu a:hover {
     background-color: #495057;
   }
-=======
+
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -133,11 +133,3 @@ body {
     }
   }
 </style>
-
->>>>>>> bd971a9342d9c63fc1237aef34d2fed2f4dbaf76
-  
-  
-  
-  
-  
-  

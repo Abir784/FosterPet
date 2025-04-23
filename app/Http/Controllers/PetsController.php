@@ -74,12 +74,7 @@ class PetsController extends Controller
     }
 
     public function add_pets_post(Request $request){
-        // echo $request->location."<br>";
-        // echo $request->health."<br>";
-        // echo $request->color."<br>";
-        // echo $request->breed."<br>";
-        // echo $request->name."<br>";
-        // die();
+       
         //$request->validate([
     //         'name' => 'required|string|max:255',
     //         'age' => 'required|integer|min:0',
@@ -93,12 +88,7 @@ class PetsController extends Controller
     // ]);
 
 
-    // $imagePath = null;
-    // if ($request->hasFile('image')) {
-    //     $image = $request->file('image');
-    //     $imageName = time() . '_' . $image->getClientOriginalName();
-    //     $imagePath = $image->storeAs('pets', $imageName, 'public');
-    // }
+    
     $imagePath = null;
 
 if ($request->hasFile('image')) {

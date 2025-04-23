@@ -26,7 +26,7 @@
       <div class="form-row">
       <div class="form-group">
           <label for="breed"> color</label>
-          <input type="text" id="breed" name="breed" placeholder="Enter breed" required />
+          <input type="text" id="breed" name="color" placeholder="Enter breed" required />
         </div>
         <div class="form-group">
         <label for="image">Upload Pet Image:</label>
@@ -34,23 +34,22 @@
         </div>
         <div class="form-group">
           <label for="breed">🐕 remarks</label>
-          <input type="text" id="breed" name="breed" placeholder="Enter remarks" required />
+          <input type="text" id="breed" name="remarks" placeholder="Enter remarks" required />
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label for="breed">🐕 location</label>
-          <input type="text" id="breed" name="breed" placeholder="Enter location" required />
+          <input type="text" id="breed" name="location" placeholder="Enter location" required />
         </div>
       <div class="form-group full-width">
         <label for="temperament">😺 Temperament</label>
         <input type="text" id="temperament" name="temperament" placeholder="Describe temperament" required></input>
-      </div>
-      
+      </div><br>
+     <div>
+      <button type="submit" class="form-button">Submit</button>
+      </div>  
     </form>
   </div>
-  <div>
-      <button type="submit" class="form-button">Submit</button>
-      </div>
 </x-app-layout>
  

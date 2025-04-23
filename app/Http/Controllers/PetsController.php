@@ -6,10 +6,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
 use App\Models\pets;
-<<<<<<< HEAD
-=======
-use Carbon\Carbon;
->>>>>>> 8b00491ccf93861570f1da6a8bce4619275149b4
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,6 +74,7 @@ class PetsController extends Controller
     }
 
     public function add_pets_post(Request $request){
+       
         //$request->validate([
     //         'name' => 'required|string|max:255',
     //         'age' => 'required|integer|min:0',
@@ -90,13 +87,27 @@ class PetsController extends Controller
     //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
     // ]);
 
-    // $imagePath = null;
-    // if ($request->hasFile('image')) {
-    //     $image = $request->file('image');
-    //     $imageName = time() . '_' . $image->getClientOriginalName();
-    //     $imagePath = $image->storeAs('pets', $imageName, 'public');
-    // }
+
     
+    $imagePath = null;
+
+if ($request->hasFile('image')) {
+    $image = $request->file('image');
+    $imageName = time() . '_' . $image->getClientOriginalName();
+    $imagepath = public_path('pets');
+
+    // Create the pets folder if it doesn't exist
+    if (!file_exists($imagepath)) {
+        mkdir($imagepath, 0755, true);
+    }
+
+    // Move the uploaded file to public/pets
+    $image->move($imagepath, $imageName);
+
+    // Relative path to access via browser (e.g., /pets/image.jpg)
+    $imagePath = 'pets/' . $imageName;
+}
+
 
             
        // ]);
@@ -104,7 +115,7 @@ class PetsController extends Controller
             'name' => $request->name,
             'age' => $request->age,
             'breed' => $request->breed,
-            'health_condition' => $request->health_condition,
+            'health_condition' => $request->health,
             'temperament' => $request->temperament,
             'color' => $request->color,
             'location' => $request->location,

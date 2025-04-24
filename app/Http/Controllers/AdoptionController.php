@@ -2,37 +2,39 @@
 
 namespace App\Http\Controllers;
 
-// use App\Models\User;
-
-use App\Models\AdoptionRequest;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use App\Models\AdoptionRequest;
 use App\Models\pets;
-use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+
 class AdoptionController extends Controller
 {
-    function adpotion_list(){
-        $requests=AdoptionRequest::all();
-        return view('pet_list',[
-         'requests'=>$requests,
+    // Show all adoption requests
+    public function adpotion_list()
+    {
+        $requests = AdoptionRequest::all();
+        return view('pet_list', [
+            'requests' => $requests,
         ]);
     }
-    public function show_adoption(){
-        $pets = AdoptionRequest::where('adoptionID')->get();
-       // return view("adoption_request",
-         //   );
-            return view('adoption_request', ['pets' => $pets]);
 
+    // Show list of pets to manage adoption status
+    public function show_adoption()
+    {
+        $pets = pets::all();
+        return view('adoption_request', ['pets' => $pets]);
     }
 
+    // Update pet's adoption status
     public function updateStatus(Request $request, $id)
-{
-    $pet = pets::findOrFail($id);
-    $pet->status = $request->status;
-    $pet->save();
+    {
+        $request->validate([
+            'status' => 'required|in:Available,Pending,Adopted',
+        ]);
 
-    return redirect()->route('track.requests')->with('success', 'Status updated successfully!');
-}
+        $pet = pets::findOrFail($id);
+        $pet->status = $request->status;
+        $pet->save();
+
+        return redirect()->route('adoption.status')->with('success', 'Status updated successfully!');
+    }
 }

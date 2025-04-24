@@ -1,16 +1,5 @@
 <x-app-layout>
 <div class="container">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 shadow-sm px-3 rounded">
-        <a class="navbar-brand" href="#">🐾 Foster Pets</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="{{ route('adoption.index') }}">Adoption Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="/pets">All Pets</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <h2 class="mb-4">Manage Pet Adoption Status</h2>
 
     @if(session('success'))
@@ -26,18 +15,20 @@
                         <h5 class="card-title">{{ $pet->name }}</h5>
                         <p>Breed: {{ $pet->breed }}</p>
                         <p>Age: {{ $pet->age }}</p>
+                        <p>Status: <strong>{{ $pet->status }}</strong></p>
 
-                        <form method="POST" action="{{ route('adoption.update', $pet->id) }}">
+                        <button class="btn btn-outline-primary w-100 mb-2" onclick="toggleDropdown({{ $pet->id }})">
+                            Change Status
+                        </button>
+
+                        <form method="POST" action="{{ route('adoption.update', $pet->id) }}" id="form-{{ $pet->id }}" class="d-none">
                             @csrf
-                            <div class="form-group">
-                                <label>Status:</label>
-                                <select name="status" class="form-control mb-2">
-                                    <option value="Available" {{ $pet->status == 'Available' ? 'selected' : '' }}>Available</option>
-                                    <option value="Pending" {{ $pet->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="Adopted" {{ $pet->status == 'Adopted' ? 'selected' : '' }}>Adopted</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Update Status</button>
+                            <select name="status" class="form-control" onchange="document.getElementById('form-{{ $pet->id }}').submit();">
+                                <option value="" disabled selected>Select status</option>
+                                <option value="Available">Available</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Adopted">Adopted</option>
+                            </select>
                         </form>
                     </div>
                 </div>
@@ -46,4 +37,11 @@
     </div>
 </div>
 
+<script>
+    function toggleDropdown(petId) {
+        const form = document.getElementById('form-' + petId);
+        form.classList.toggle('d-none');
+    }
+</script>
 </x-app-layout>
+

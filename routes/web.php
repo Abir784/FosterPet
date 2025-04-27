@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 
     // Adoption
     Route::get('/pets/adopt/show', [AdoptionController::class, 'adpotion_list'])->name('track.requests');
-    Route::get('/adoption/status', [AdoptionController::class, 'show_adoption'])->name('adoption.status');
+    Route::get('/adoption/status', [AdoptionController::class, 'updateStatus'])->name('adoption.status');
     Route::post('/adoption/update/{id}', [AdoptionController::class, 'updateStatus'])->name('adoption.update');
 
     // Add this route to fix the "adoption.index not defined" error

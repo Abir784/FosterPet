@@ -17,12 +17,6 @@ class AdoptionController extends Controller
         ]);
     }
 
-    // Show list of pets to manage adoption status
-    public function show_adoption()
-    {
-        $pets = pets::all();
-        return view('adoption_request', ['pets' => $pets]);
-    }
 
     // Update pet's adoption status
     public function updateStatus(Request $request, $id)
@@ -31,10 +25,12 @@ class AdoptionController extends Controller
             'status' => 'required|in:Available,Pending,Adopted',
         ]);
 
-        $pet = pets::findOrFail($id);
-        $pet->status = $request->status;
-        $pet->save();
 
-        return redirect()->route('adoption.status')->with('success', 'Status updated successfully!');
+
+        $adoption = AdoptionRequest::where("adoptionID",$id)->update([
+            'status' => $request->status,
+        ]);
+
+         return back()->with('success', 'Status updated successfully!');
     }
 }

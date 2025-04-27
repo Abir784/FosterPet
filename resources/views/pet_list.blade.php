@@ -17,7 +17,22 @@
                             Status:<br>
                             <span class="badge bg-success"> {{ $req->status}}</span>
                         </p>
-                        <a href="#" class="btn btn-primary mb-4 mt-4">Change Status</a> <br>
+                        <br>
+                        <button class="btn btn-outline-primary w-100 mb-2" onclick="toggleDropdown({{ $req->adoptionID }})">
+                            Change Status
+                        </button>
+                        <br>
+
+                        <form method="POST" action="{{ route('adoption.update', $req->adoptionID) }}" id="form-{{ $req->adoptionID }}" class="d-none">
+                            @csrf
+                            <select name="status" class="form-control" onchange="document.getElementById('form-{{ $req->adoptionID }}').submit();">
+                                <option value="" disabled selected>Select status</option>
+                                <option value="Available">Available</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Adopted">Adopted</option>
+                            </select>
+                        </form>
+                        <br>
                         <a href="#" class="btn btn-primary">View  Details</a>
                     </div>
                 </div>
@@ -25,4 +40,11 @@
             @endforeach
         </div>
     </div>
+
+<script>
+    function toggleDropdown(petId) {
+        const form = document.getElementById('form-' + petId);
+        form.classList.toggle('d-none');
+    }
+</script>
 </x-app-layout>

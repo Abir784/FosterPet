@@ -19,5 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class pets extends Model
 {
-    protected $fillable = ['name', 'type', 'status'];
+
+    protected $guarded  = ['id'];
+
 }

@@ -5,9 +5,15 @@ use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetsController;
 
+
 Route::get('/', function () {
     return view('index');
 });
+
+
+
+
+// Dashboard
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -15,7 +21,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Profile
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

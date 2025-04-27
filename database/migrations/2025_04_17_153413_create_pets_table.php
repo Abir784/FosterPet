@@ -11,10 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('adoption_requests', function (Blueprint $table) {
-            $table->id("adoptionID");
-            $table->integer("adopterID");
-            $table->string("status");       
+
+        Schema::create('pets', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('age');
+            $table->string('breed');
+            $table->string('color');
+            $table->string('health_condition');
+            $table->string('temperament');
+            $table->string('location');
+            $table->string('remarks');
+            $table->integer('owner_id');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

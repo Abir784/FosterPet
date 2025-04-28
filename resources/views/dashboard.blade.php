@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="m-5 dashboard-section-container">
         <div class="feature-card">
-        <a href="{{ route('pets.update_pet')}}">
-          <h5>Manage Pets</h5>
+        <a href="{{ route('pets.add_pets') }}">
+          <h5>Add Pets</h5>
         </a>
           <p>Maintain the pet database by adding new animals, updating profiles, or removing inactive listings.</p>
           <ul class="sidebar-menu" id="sidebar-menu">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="feature-card">
-          <h5>Messages</h5>
+          <h5>Message</h5>
           <p>Facilitate safe and moderated communication between shelters and adopters.</p>
           <ul>
             <li>Search message history</li>

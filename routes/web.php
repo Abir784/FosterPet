@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     // Pets
     Route::get('/pets/add', [PetsController::class, 'add_pets'])->name('pets.add_pets');
     Route::post('/pets/store', [PetsController::class, 'add_pets_post'])->name('add_pets.post');
+
     Route::post('/pets/update', [PetsController::class, 'update_pets'])->name('pets.update_pet');
     Route::delete('/pets/delete', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
     Route::get('/pets/details', [PetsController::class, 'show_pets'])->name('show.pets');

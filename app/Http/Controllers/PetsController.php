@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
 use App\Models\pets;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class PetsController extends Controller
 
 
     public function show_pets(){
-        $pets = pets::where('user_id',Auth::id())->get();
+        $pets = pets::where('owner_id',Auth::id())->get();
         return view("pets.show_pets",[
             'pets'=>$pets,
         ]);
@@ -74,21 +75,20 @@ class PetsController extends Controller
     }
 
     public function add_pets_post(Request $request){
-       
-        //$request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'age' => 'required|integer|min:0',
-    //         'breed' => 'required|string|max:255',
-    //         'color' => 'required|string|max:255',
-    //         'health_condition' => 'required|string|max:255',
-    //         'temperament' => 'required|string|max:255',
-            // 'location' => 'required|string|max:255',
-            // 'remarks' => 'required|string|max:255',
-    //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
-    // ]);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|string|max:255',
+            'breed' => 'required|string|max:255',
+            'health' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'remarks' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'temperament' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
 
-    
     $imagePath = null;
 
 if ($request->hasFile('image')) {
@@ -109,7 +109,7 @@ if ($request->hasFile('image')) {
 }
 
 
-            
+
        // ]);
         pets::create([
             'name' => $request->name,
@@ -120,9 +120,10 @@ if ($request->hasFile('image')) {
             'color' => $request->color,
             'location' => $request->location,
             'remarks' => $request->remarks,
-            'owner_id' => 1,
+            'owner_id' =>Auth::id(),
             'image' => $imagePath,
         ]);
+
 
         return back()->with('success', 'Pet information saved successfully!');
     }
@@ -131,4 +132,3 @@ if ($request->hasFile('image')) {
 
 
 
-    

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="m-5 dashboard-section-container">
         <div class="feature-card">
-        <h5>Manage Pets</h5>
+
           <p>Maintain the pet database by adding new animals, updating profiles, or removing inactive listings.</p>
           <ul class="sidebar-menu" id="sidebar-menu">
             <li> Add or edit pet profiles</li>

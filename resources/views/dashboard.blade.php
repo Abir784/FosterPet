@@ -18,6 +18,5 @@
             </p>
             <p class="mt-4 text-gray-600">Total requests submitted to adopt your pets.</p>
         </div>
-
     </div>
 </x-app-layout>

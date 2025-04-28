@@ -16,17 +16,17 @@ use Illuminate\View\View;
 
 class PetsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+    public function add_pets(){
+        return view('pets.add_pets');
     }
-    public function add_pets($id){
-        return view('pets.add_pets',[
-            'pet_id'=>$id,
-        ]);
-    }
+
+
     public function show_pets(){
-        $pets = pets::where('user_id',Auth::id())->get();
+        $pets = pets::where('owner_id',Auth::id())->get();
         return view("pets.show_pets",[
             'pets'=>$pets,
         ]);
@@ -73,4 +73,62 @@ class PetsController extends Controller
         pets::find($id)->delete();
         return back()->with('success','Deleted Successfully');
     }
+
+    public function add_pets_post(Request $request){
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|string|max:255',
+            'breed' => 'required|string|max:255',
+            'health' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'remarks' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'temperament' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+
+    $imagePath = null;
+
+if ($request->hasFile('image')) {
+    $image = $request->file('image');
+    $imageName = time() . '_' . $image->getClientOriginalName();
+    $imagepath = public_path('pets');
+
+    // Create the pets folder if it doesn't exist
+    if (!file_exists($imagepath)) {
+        mkdir($imagepath, 0755, true);
+    }
+
+    // Move the uploaded file to public/pets
+    $image->move($imagepath, $imageName);
+
+    // Relative path to access via browser (e.g., /pets/image.jpg)
+    $imagePath = 'pets/' . $imageName;
 }
+
+
+
+       // ]);
+        pets::create([
+            'name' => $request->name,
+            'age' => $request->age,
+            'breed' => $request->breed,
+            'health_condition' => $request->health,
+            'temperament' => $request->temperament,
+            'color' => $request->color,
+            'location' => $request->location,
+            'remarks' => $request->remarks,
+            'owner_id' =>Auth::id(),
+            'image' => $imagePath,
+        ]);
+
+
+        return back()->with('success', 'Pet information saved successfully!');
+    }
+
+}
+
+
+

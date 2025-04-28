@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('pets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('age');
             $table->string('breed');
-            $table->string('type');
             $table->string('color');
+            $table->string('health_condition');
+            $table->string('temperament');
             $table->string('location');
             $table->string('remarks');
             $table->integer('owner_id');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pets');
+        Schema::dropIfExists('adoption_requests');
     }
 };

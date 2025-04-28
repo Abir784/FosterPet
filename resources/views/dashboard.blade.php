@@ -2,7 +2,8 @@
     <div class="m-5 dashboard-section-container">
         <div class="feature-card">
         <a href="{{ route('pets.update_pet')}}">
-          <h5>Manage Pets</h5>
+          <h5>Manage Pets
+        </h5>
         </a>
           <p>Maintain the pet database by adding new animals, updating profiles, or removing inactive listings.</p>
           <ul class="sidebar-menu" id="sidebar-menu">

@@ -9,7 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('adoption_requests', function (Blueprint $table) {
-            $table->id('adoptionID');
+            $table->id('id');
+            $table->unsignedBigInteger('adoptionID');
             $table->unsignedBigInteger('adopterID');
             $table->string('status');
             $table->timestamps();

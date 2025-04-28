@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetsController;
+use App\Models\AdoptionRequest;
+use App\Models\pets;
+use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
@@ -16,7 +19,16 @@ Route::get('/', function () {
 // Dashboard
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $pet_count = pets::where('owner_id', Auth::id())->count();
+    $adoption_request_count = AdoptionRequest::whereIn('adoptionID', function($query) {
+        $query->select('id')
+            ->from('pets')
+            ->where('owner_id', Auth::id());
+    })->count();
+    return view('dashboard', [
+        'pet_count' => $pet_count,
+        'adoption_request_count' => $adoption_request_count,
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

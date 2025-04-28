@@ -5,7 +5,7 @@
     <div class="sidebar-heading text-center py-4 fs-4 fw-bold border-bottom">FosterPet Admin</div>
     <div class="list-group list-group-flush sidebar-menu">
       <a href="#dashboard" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
-      <a href="#pets" class="list-group-item list-group-item-action bg-dark text-white">Manage Pets</a>
+      <a href="{{ route('pets.add_pets') }}" class="list-group-item list-group-item-action bg-dark text-white">Add Pets</a>
       <a href="{{ route('track.requests')}}" class="list-group-item list-group-item-action bg-dark text-white">See Applications</a>
       <a href="#users" class="list-group-item list-group-item-action bg-dark text-white">Users</a>
       <a href="#messages" class="list-group-item list-group-item-action bg-dark text-white">Messages</a>

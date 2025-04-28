@@ -6,20 +6,12 @@
     <div class="list-group list-group-flush sidebar-menu">
       <a href="#dashboard" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
       <a href="#pets" class="list-group-item list-group-item-action bg-dark text-white">Manage Pets</a>
-      <a href="#applications" class="list-group-item list-group-item-action bg-dark text-white">Applications</a>
+      <a href="{{ route('track.requests')}}" class="list-group-item list-group-item-action bg-dark text-white">See Applications</a>
       <a href="#users" class="list-group-item list-group-item-action bg-dark text-white">Users</a>
       <a href="#messages" class="list-group-item list-group-item-action bg-dark text-white">Messages</a>
       <a href="#donations" class="list-group-item list-group-item-action bg-dark text-white">Donations</a>
       <a href="#settings" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
-      <form method="POST" action="{{ route('logout') }} ">
-        @csrf
 
-        <x-responsive-nav-link :href="route('logout')"
-                onclick="event.preventDefault();
-                            this.closest('form').submit();" class="list-group-item list-group-item-action bg-dark text-white">
-            {{ __('Log Out') }}
-        </x-responsive-nav-link>
-    </form>
     </div>
   </div>
 

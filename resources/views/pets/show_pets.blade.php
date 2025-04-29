@@ -33,7 +33,7 @@
                   <td>{{$pet->breed}}</td>
                   <td>{{$pet->color}}</td>
                   <td>{{$pet->health_condition}}</td>
-                  <td>{{$pet->imagePath}}</td>
+                  <td>{{$pet->image}}</td>
 
                 </tr>
                 @endforeach

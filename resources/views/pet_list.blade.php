@@ -17,11 +17,9 @@
                             Status:<br>
                             <span class="badge bg-success"> {{ $req->status}}</span>
                         </p>
-<<<<<<< HEAD
                         <a href="#" class="mt-4 mb-4 btn btn-primary">Change Status</a> <br>
-=======
                         <br>
-                        <button class="btn btn-outline-primary w-100 mb-2" onclick="toggleDropdown({{ $req->adoptionID }})">
+                        <button class="mb-2 btn btn-outline-primary w-100" onclick="toggleDropdown({{ $req->adoptionID }})">
                             Change Status
                         </button>
                         <br>
@@ -36,7 +34,6 @@
                             </select>
                         </form>
                         <br>
->>>>>>> 4bd42e0928a3c7f2e96824504ca400aff93b1842
                         <a href="#" class="btn btn-primary">View  Details</a>
                     </div>
                 </div>

@@ -27,6 +27,11 @@
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="form-group">
+                    <label for="type">🐶 Type</label>
+                    <input type="text" id="type" name="type" placeholder="Enter pet's type" value="{{ old('type') }}" required />
+                    <x-input-error :messages="$errors->get('type')" class="mt-2" />
+                </div>
+                <div class="form-group">
                     <label for="age">📅 Age</label>
                     <input type="text" id="age" name="age" placeholder="Enter pet's age" value="{{ old('age') }}" required />
                     <x-input-error :messages="$errors->get('age')" class="mt-2" />

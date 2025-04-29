@@ -14,17 +14,30 @@
                     </div>
                   </th>
 
-                 <th scope="col">Name</th>
-                  <th scope="col">Breed</th>
-                  <th scope="col">Age</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Color</th>
-                  <th scope="col">Location</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Breed</th>
+                <th scope="col">Color</th>
+                <th scope="col">Health Condition</th>
+                <th scope="col">Image</th>
 
                 </tr>
               </thead>
 
+              <tbody>
+                @foreach($pets as $SL=>$pet)
+                <tr>
+                  <td>{{  $SL+1}}</td>
+                  <td>{{$pet->name}}</td>
+                  <td>{{$pet->age}}</td>
+                  <td>{{$pet->breed}}</td>
+                  <td>{{$pet->color}}</td>
+                  <td>{{$pet->health_condition}}</td>
+                  <td>{{$pet->imagePath}}</td>
 
+                </tr>
+                @endforeach
+              </tbody>
 
             </table>
           </div>

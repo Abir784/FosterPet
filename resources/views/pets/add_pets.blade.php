@@ -27,8 +27,17 @@
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="form-group">
-                    <label for="type">🐶 Type</label>
-                    <input type="text" id="type" name="type" placeholder="Enter pet's type" value="{{ old('type') }}" required />
+
+                 
+                    <label for="type">🐾 Type</label>
+                    <input type="text" id="type" name="type" list="petTypes" placeholder="Select pet type" value="{{ old('type') }}" required />
+                    <datalist id="petTypes">
+                        <option value="Dog">
+                        <option value="Cat">
+                        <option value="Bird">
+                        <option value="Fish">
+                        <option value="Other">
+                    </datalist>
                     <x-input-error :messages="$errors->get('type')" class="mt-2" />
                 </div>
                 <div class="form-group">

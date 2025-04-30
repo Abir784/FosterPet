@@ -38,6 +38,7 @@ class PetsController extends Controller
          $request->validate(
              [
                  'name' => 'required',
+                 'type' => 'required|in:Dog,Cat,Bird,Fish,Other',
                  'age' => 'required',
                  'breed' => 'required',
                  'location' => 'required',
@@ -45,6 +46,8 @@ class PetsController extends Controller
              ],
              [
                  'name.required' => 'Name is required',
+                 'type.required' => 'Type is required',
+                 'type.in' => 'Please select a valid pet type',
                  'age.required' => 'Age is required',
                  'breed.required' => 'Breed is required',
                  'location.required' => 'location is required',
@@ -55,6 +58,7 @@ class PetsController extends Controller
             pets::where('id',Auth::user()->id)->update([
              'name' => $request->name,
              'age' => $request->age,
+             'type' => $request->type,
              'location' => $request->location,
              'color' => $request->color,
              'breed' => $request->breed,
@@ -80,6 +84,7 @@ class PetsController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:255',
+
             'age' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'health_condition' => 'required|string|max:255',

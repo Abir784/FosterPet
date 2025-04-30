@@ -13,9 +13,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-
-
-
 // Dashboard
 
 Route::get('/dashboard', function () {
@@ -44,6 +41,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/pets/update', [PetsController::class, 'update_pets'])->name('pets.update_pet');
     Route::delete('/pets/delete', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
+    Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');
+    Route::get("/pets/adopt/show",[AdoptionController::class,"adoption_list"])->name('track.requests');
     Route::get('/pets/details', [PetsController::class, 'show_pets'])->name('show.pets');
 
     // Adoption

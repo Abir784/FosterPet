@@ -39,7 +39,7 @@ class PetsController extends Controller
                  'age' => 'required',
                  'breed' => 'required',
                  'location' => 'required',
-                 'health condition' => 'required',
+                 'health_condition' => 'required',
              ],
              [
                  'name.required' => 'Name is required',
@@ -48,17 +48,18 @@ class PetsController extends Controller
                  'age.required' => 'Age is required',
                  'breed.required' => 'Breed is required',
                  'location.required' => 'location is required',
-                 'health condition' => 'health condition is required'
+                 'health_condition' => 'health condition is required'
                  //'phone_number.numeric' => 'Phone number must be numeric',
              ]
              );
             pets::where('id',Auth::user()->id)->update([
              'name' => $request->name,
+             'age' => $request->age,
              'type' => $request->type,
              'location' => $request->location,
              'color' => $request->color,
              'breed' => $request->breed,
-             'health condition' => $request->health_condition,
+             'health_condition' => $request->health_condition,
              'updated_at' => Carbon::now(),
             ]);// id check kore
 
@@ -79,10 +80,11 @@ class PetsController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|in:Dog,Cat,Bird,Fish,Other',
+            'type' => 'required|string|max:255',
+
             'age' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
-            'health' => 'required|string|max:255',
+            'health_condition' => 'required|string|max:255',
             'color' => 'required|string|max:255',
             'remarks' => 'required|string|max:255',
             'location' => 'required|string|max:255',
@@ -118,13 +120,13 @@ if ($request->hasFile('image')) {
             'type' => $request->type,
             'age' => $request->age,
             'breed' => $request->breed,
-            'health_condition' => $request->health,
+            'health_condition' => $request->health_condition,
             'temperament' => $request->temperament,
             'color' => $request->color,
             'location' => $request->location,
             'remarks' => $request->remarks,
             'owner_id' =>Auth::id(),
-            'image' => $imagePath,
+            'image' => $image,
         ]);
 
 

@@ -16,10 +16,7 @@ use Illuminate\View\View;
 
 class PetsController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+   
     public function add_pets(){
         return view('pets.add_pets');
     }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('pets', function (Blueprint $table) {
             $table->string('type')->after('name');
+            $table->string('health_condition')->after('type');
         });
     }
 

@@ -16,10 +16,7 @@ use Illuminate\View\View;
 
 class PetsController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+
     public function add_pets(){
         return view('pets.add_pets');
     }
@@ -84,7 +81,6 @@ class PetsController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:255',
-
             'age' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'health_condition' => 'required|string|max:255',
@@ -92,28 +88,28 @@ class PetsController extends Controller
             'remarks' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'temperament' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable',
         ]);
 
 
-    $imagePath = null;
+        $imagePath = null;
 
-if ($request->hasFile('image')) {
-    $image = $request->file('image');
-    $imageName = time() . '_' . $image->getClientOriginalName();
-    $imagepath = public_path('pets');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagepath = public_path('pets');
 
-    // Create the pets folder if it doesn't exist
-    if (!file_exists($imagepath)) {
-        mkdir($imagepath, 0755, true);
-    }
+            // Create the pets folder if it doesn't exist
+            if (!file_exists($imagepath)) {
+                mkdir($imagepath, 0755, true);
+            }
 
-    // Move the uploaded file to public/pets
-    $image->move($imagepath, $imageName);
+            // Move the uploaded file to public/pets
+            $image->move($imagepath, $imageName);
 
-    // Relative path to access via browser (e.g., /pets/image.jpg)
-    $imagePath = 'pets/' . $imageName;
-}
+            // Relative path to access via browser (e.g., /pets/image.jpg)
+            $imagePath = 'pets/' . $imageName;
+        }
 
 
 
@@ -129,7 +125,7 @@ if ($request->hasFile('image')) {
             'location' => $request->location,
             'remarks' => $request->remarks,
             'owner_id' =>Auth::id(),
-            'image' => $image,
+            'image' => $imagePath,
         ]);
 
 

@@ -11,6 +11,7 @@
       <a href="#messages" class="list-group-item list-group-item-action bg-dark text-white">Messages</a>
       <a href="#donations" class="list-group-item list-group-item-action bg-dark text-white">Donations</a>
       <a href="#settings" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
+      <a href="{{ route('applicant-types.create')}}" class="list-group-item list-group-item-action bg-dark text-white">Applications Type</a>
 
     </div>
   </div>

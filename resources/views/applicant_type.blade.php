@@ -1,6 +1,6 @@
 <x-app-layout>
 <div class="container mt-4">
-    <h2>Foster Application Form</h2>
+    <h2>Applicant Type Form</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

@@ -1,13 +1,13 @@
-<!-- resources/views/petlist.blade.php -->
+<!-- resources/views/pet_list.blade.php -->
 
 <x-app-layout>
 <div class="container">
-    <div class="status-section mb-5">
+    <div class="mb-5 status-section">
         <h2>🐶 Applications</h2>
         <div class="row">
             @foreach ($requests as $req )
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
+            <div class="mb-4 col-md-4">
+                <div class="shadow-sm card h-100">
                     <img src="#" class="card-img-top" alt="#">
                     <div class="card-body">
                         <h5 class="card-title">#</h5>
@@ -17,8 +17,9 @@
                             Status:<br>
                             <span class="badge bg-success"> {{ $req->status}}</span>
                         </p>
+                        <a href="#" class="mt-4 mb-4 btn btn-primary">Change Status</a> <br>
                         <br>
-                        <button class="btn btn-outline-primary w-100 mb-2" onclick="toggleDropdown({{ $req->adoptionID }})">
+                        <button class="mb-2 btn btn-outline-primary w-100" onclick="toggleDropdown({{ $req->adoptionID }})">
                             Change Status
                         </button>
                         <br>

@@ -8,6 +8,13 @@ use App\Models\pets;
 
 class AdoptionController extends Controller
 {
+
+    function adoption_list(){
+        $requests=AdoptionRequest::all();
+        return view('pet_list',[
+         'requests'=>$requests,
+        ]);
+    }
     // Show all adoption requests
     public function adpotion_list()
     {

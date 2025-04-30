@@ -27,6 +27,8 @@
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="form-group">
+
+                 
                     <label for="type">🐾 Type</label>
                     <input type="text" id="type" name="type" list="petTypes" placeholder="Select pet type" value="{{ old('type') }}" required />
                     <datalist id="petTypes">
@@ -52,9 +54,9 @@
                     <x-input-error :messages="$errors->get('breed')" class="mt-2" />
                 </div>
                 <div class="form-group">
-                    <label for="health">❤️ Health Condition</label>
-                    <input type="text" id="health" name="health" placeholder="Enter health condition" value="{{ old('health') }}" required />
-                    <x-input-error :messages="$errors->get('health')" class="mt-2" />
+                    <label for="health_condition">❤️ Health Condition</label>
+                    <input type="text" id="health_condition" name="health_condition" placeholder="Enter health condition" value="{{ old('health_condition') }}" required />
+                    <x-input-error :messages="$errors->get('health_condition')" class="mt-2" />
                 </div>
             </div>
 

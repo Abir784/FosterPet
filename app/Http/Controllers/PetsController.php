@@ -35,6 +35,7 @@ class PetsController extends Controller
          $request->validate(
              [
                  'name' => 'required',
+                 'type' => 'required|in:Dog,Cat,Bird,Fish,Other',
                  'age' => 'required',
                  'breed' => 'required',
                  'location' => 'required',
@@ -42,6 +43,8 @@ class PetsController extends Controller
              ],
              [
                  'name.required' => 'Name is required',
+                 'type.required' => 'Type is required',
+                 'type.in' => 'Please select a valid pet type',
                  'age.required' => 'Age is required',
                  'breed.required' => 'Breed is required',
                  'location.required' => 'location is required',
@@ -51,6 +54,7 @@ class PetsController extends Controller
              );
             pets::where('id',Auth::user()->id)->update([
              'name' => $request->name,
+             'type' => $request->type,
              'location' => $request->location,
              'color' => $request->color,
              'breed' => $request->breed,
@@ -75,6 +79,7 @@ class PetsController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|string|in:Dog,Cat,Bird,Fish,Other',
             'age' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'health' => 'required|string|max:255',
@@ -110,6 +115,7 @@ if ($request->hasFile('image')) {
        // ]);
         pets::create([
             'name' => $request->name,
+            'type' => $request->type,
             'age' => $request->age,
             'breed' => $request->breed,
             'health_condition' => $request->health,

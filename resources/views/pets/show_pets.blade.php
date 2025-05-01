@@ -20,6 +20,7 @@
                 <th scope="col">Color</th>
                 <th scope="col">Health Condition</th>
                 <th scope="col">Image</th>
+                <th scope="col" style="text-align: center;">Update</th>
 
                 </tr>
               </thead>
@@ -34,6 +35,11 @@
                   <td>{{$pet->breed}}</td>
                   <td>{{$pet->color}}</td>
                   <td>{{$pet->health_condition}}</td>
+
+                  <td>
+                    <button type="submit" class="form-button success">Edit</button>
+                    <button type="submit" class="form-button danger" style="text-align: center;">Delete</button>
+                  </td>
 
                 </tr>
                 @endforeach

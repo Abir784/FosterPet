@@ -29,6 +29,10 @@ class PetsController extends Controller
         ]);
     }
 
+    public function update_form(){
+        return view("pets.update_pets");
+    }
+
     public function update_pets(Request $request){
         // print_r($request->all());
 
@@ -52,7 +56,7 @@ class PetsController extends Controller
                  //'phone_number.numeric' => 'Phone number must be numeric',
              ]
              );
-            pets::where('id',Auth::user()->id)->update([
+            pets::where('id',Auth::pets()->id)->update([
              'name' => $request->name,
              'age' => $request->age,
              'type' => $request->type,

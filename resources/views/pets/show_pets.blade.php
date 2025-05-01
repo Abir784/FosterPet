@@ -37,8 +37,13 @@
                   <td>{{$pet->health_condition}}</td>
 
                   <td>
+                    <a href="{{ route('pets.update_form')}}">
                     <button type="submit" class="form-button success">Edit</button>
+                    </a>
+                    <a href="{{ route('pets.update_pet')}}">
                     <button type="submit" class="form-button danger" style="text-align: center;">Delete</button>
+                    </a>
+
                   </td>
 
                 </tr>

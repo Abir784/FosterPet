@@ -56,7 +56,7 @@ class PetsController extends Controller
                  //'phone_number.numeric' => 'Phone number must be numeric',
              ]
              );
-            pets::where('id',Auth::pets()->id)->update([
+            pets::where('id',Auth::user()->id)->update([
              'name' => $request->name,
              'age' => $request->age,
              'type' => $request->type,

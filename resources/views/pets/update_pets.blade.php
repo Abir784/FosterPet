@@ -30,7 +30,7 @@
 
 
                     <label for="type">🐾 Type</label>
-                    <input type="text" id="type" name="type" list="petTypes" placeholder="{{ old('name') }}" value="{{ old('type') }}"  >
+                    <input type="text" id="type" name="type" list="petTypes" placeholder="{{ old('type') }}" value="{{ old('type') }}"  >
                     <datalist id="petTypes">
                         <option value="Dog">
                         <option value="Cat">

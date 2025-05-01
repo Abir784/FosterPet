@@ -2,7 +2,8 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
   <div class="text-white bg-dark sidebar position-fixed" id="sidebar-wrapper">
-    <div class="py-4 text-center sidebar-heading fs-4 fw-bold border-bottom">FosterPet Admin</div>
+    <div class="py-4 text-center sidebar-heading fs-4 fw-bold border-bottom">
+       <a href="{{ route('index') }}">FosterPet</a></div>
     <div class="list-group list-group-flush sidebar-menu">
       <a href="#dashboard" class="text-white list-group-item list-group-item-action bg-dark">Dashboard</a>
       <a href="{{ route('pets.add_pets') }}" class="text-white list-group-item list-group-item-action bg-dark">Add Pets</a>

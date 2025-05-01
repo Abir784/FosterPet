@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetsController;
@@ -9,9 +10,10 @@ use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
 
 
-Route::get('/', function () {
-    return view('index');
-});
+//Route::get('/', function () {
+  //  return view('index');
+//});
+Route::get('/index',[MainController::class,'index'])->name('index');
 
 // Dashboard
 

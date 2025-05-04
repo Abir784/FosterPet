@@ -7,21 +7,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetsController;
 
 use App\Http\Controllers\ApplicantTypeController;
-
+use App\Http\Controllers\FriendRequestController;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
 
 
-Route::get('/', function () {
-    return view('index');
-});
-Route::get('/index',[MainController::class,'index'])->name('index');
 
+Route::get('/',[MainController::class,'index'])->name('index');
 
-Route::get('/', function () {
-    return view('index');
-});
 
 
 // Dashboard
@@ -70,6 +64,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/foster/apply', [ApplicantTypeController::class, 'create'])->name('applicant-types.create'); // Show foster application form
     Route::post('/foster/apply', [ApplicantTypeController::class, 'store'])->name('applicant-types.store'); // Submit foster application
 
+    Route::get('/friends', [FriendRequestController::class, 'index'])->name('friends.index');
+    Route::post('/friend-request/send', [FriendRequestController::class, 'send'])->name('friends.send');
+    Route::post('/friend-request/accept/{id}', [FriendRequestController::class, 'accept'])->name('friends.accept');
+    Route::post('/friend-request/decline/{id}', [FriendRequestController::class, 'decline'])->name('friends.reject');
+    // Route::get('/friends', [FriendRequestController::class, 'myFriends']);
+
+    // Messages
+    // Route::post('/message/send', [MessageController::class, 'send']);
+    // Route::get('/message/conversation/{userId}', [MessageController::class, 'conversation'])
 });
 
 require __DIR__.'/auth.php';

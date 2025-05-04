@@ -65,7 +65,7 @@ class PetsController extends Controller
              'breed' => $request->breed,
              'health_condition' => $request->health_condition,
              'updated_at' => Carbon::now(),
-            ]);// id check kore
+            ]);// idcheck kore
 
 
 

@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
     // Add this route to fix the "adoption.index not defined" error
     Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
+    //Tracking Adoption Requests
+    Route::get('/adoption/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
 });
 
 require __DIR__.'/auth.php';

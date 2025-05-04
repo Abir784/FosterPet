@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
+use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -114,7 +115,7 @@ class PetsController extends Controller
 
 
        // ]);
-        pets::create([
+        $pet=pets::create([
             'name' => $request->name,
             'type' => $request->type,
             'age' => $request->age,
@@ -126,6 +127,13 @@ class PetsController extends Controller
             'remarks' => $request->remarks,
             'owner_id' =>Auth::id(),
             'image' => $imagePath,
+        ]);
+
+        ::create([
+            'pet_id' => $pet->id,
+            'user_id' => Auth::id(),
+            'status' => 'pending', // Assuming default status
+            'created_at' => Carbon::now(),
         ]);
 
 

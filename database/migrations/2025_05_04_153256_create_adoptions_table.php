@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pets', function (Blueprint $table) {
-            $table->string('type')->after('name');
-            $table->string('health_condition')->after('type');
+        Schema::create('adoptions', function (Blueprint $table) {
+            $table->id();
+            $table->foreign('pet_id')->references('id')->on('pets')->onDelete('cascade');
+            $table->foreign('OwnerID')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pets', function (Blueprint $table) {
-            $table->dropColumn('type');
-        });
+        Schema::dropIfExists('adoptions');
     }
 };

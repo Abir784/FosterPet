@@ -19,8 +19,8 @@
       <a href="{{ route('pets.add_pets') }}" class="text-white list-group-item list-group-item-action bg-dark">Add Pets</a>
       <a href="{{ route('pets.update_form') }}" class="text-white list-group-item list-group-item-action bg-dark">Update Pets</a>
       <a href="{{ route('show.pets') }}" class="text-white list-group-item list-group-item-action bg-dark">See Pets Details</a>
-      
-      <a href="#users" class="text-white list-group-item list-group-item-action bg-dark">Users</a>
+      <a href="{{ route('track.requests') }}" class="text-white list-group-item list-group-item-action bg-dark"> See Pets Applications</a>
+      <a href="#users" class="text-white list-group-item list-group-item-action bg-dark">Track My requests</a>
       <a href="#messages" class="text-white list-group-item list-group-item-action bg-dark">Messages</a>
       <a href="#donations" class="text-white list-group-item list-group-item-action bg-dark">Donations</a>
       <a href="#settings" class="text-white list-group-item list-group-item-action bg-dark">Settings</a>

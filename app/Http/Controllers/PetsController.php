@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
+use App\Models\Adoption;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Carbon\Carbon;
@@ -22,16 +23,14 @@ class PetsController extends Controller
         return view('pets.add_pets');
     }
 
-
+    public function update_form(){
+        return view("pets.update_pets");
+    }
     public function show_pets(){
         $pets = pets::where('owner_id',Auth::id())->get();
         return view("pets.show_pets",[
             'pets'=>$pets,
         ]);
-    }
-
-    public function update_form(){
-        return view("pets.update_pets");
     }
 
     public function update_pets(Request $request){
@@ -133,10 +132,8 @@ class PetsController extends Controller
             'image' => $imagePath,
         ]);
 
-        ::create([
+        Adoption::create([
             'pet_id' => $pet->id,
-            'user_id' => Auth::id(),
-            'status' => 'pending', // Assuming default status
             'created_at' => Carbon::now(),
         ]);
 

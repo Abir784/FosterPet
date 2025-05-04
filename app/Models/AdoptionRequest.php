@@ -15,4 +15,10 @@ class AdoptionRequest extends Model
      {
          return $this->belongsTo(User::class, 'adopterID');
      }
+
+
+     public function adoption()
+     {
+         return $this->belongsTo(Adoption::class, 'adoptionID');
+     }
 }

@@ -4,9 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetsController;
+
+use App\Http\Controllers\ApplicantTypeController;
+
 use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
+
 
 
 Route::get('/', function () {
@@ -52,8 +56,11 @@ Route::middleware('auth')->group(function () {
 
     // Add this route to fix the "adoption.index not defined" error
     Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
-    //Tracking Adoption Requests
-    Route::get('/adoption/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
+
+    // Applicant Types (Foster Application)
+    Route::get('/foster/apply', [ApplicantTypeController::class, 'create'])->name('applicant-types.create'); // Show foster application form
+    Route::post('/foster/apply', [ApplicantTypeController::class, 'store'])->name('applicant-types.store'); // Submit foster application
+
 });
 
 require __DIR__.'/auth.php';

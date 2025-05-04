@@ -29,6 +29,10 @@ class PetsController extends Controller
         ]);
     }
 
+    public function update_form(){
+        return view("pets.update_pets");
+    }
+
     public function update_pets(Request $request){
         // print_r($request->all());
 

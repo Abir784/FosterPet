@@ -5,20 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
+use Illuminate\Support\Facades\Auth;
 
 class AdoptionController extends Controller
 {
 
-    function adoption_list(){
-        $requests=AdoptionRequest::all();
-        return view('pet_list',[
-         'requests'=>$requests,
-        ]);
-    }
-    // Show all adoption requests
-    public function adpotion_list()
+
+    public function adoption_list()
     {
-        $requests = AdoptionRequest::all();
+        $user = Auth::user();
+
+        $requests = AdoptionRequest::whereHas('adoption.pet', function ($query) use ($user) {
+            $query->where('owner_id', $user->id);
+        })
+        ->with(['adoption.pet', 'adopter'])
+        ->get();
         return view('pet_list', [
             'requests' => $requests,
         ]);
@@ -38,5 +39,14 @@ class AdoptionController extends Controller
         ]);
 
          return back()->with('success', 'Status updated successfully!');
+    }
+
+    public function track_adoption(){
+
+        $adoption_requests = AdoptionRequest::where('adopterID', Auth::id())->with('adoption.pet')->get();
+
+        return view('track_adoption', [
+            'adoption_requests' => $adoption_requests,
+        ]);
     }
 }

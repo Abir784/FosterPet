@@ -58,12 +58,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/pets/details', [PetsController::class, 'show_pets'])->name('show.pets');
 
     // Adoption
-    Route::get('/pets/adopt/show', [AdoptionController::class, 'adpotion_list'])->name('track.requests');
     Route::get('/adoption/status', [AdoptionController::class, 'updateStatus'])->name('adoption.status');
     Route::post('/adoption/update/{id}', [AdoptionController::class, 'updateStatus'])->name('adoption.update');
 
     // Add this route to fix the "adoption.index not defined" error
     Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
+    //Adopter
+    Route::get('/adoption/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
 
     // Applicant Types (Foster Application)
     Route::get('/foster/apply', [ApplicantTypeController::class, 'create'])->name('applicant-types.create'); // Show foster application form

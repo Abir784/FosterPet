@@ -45,4 +45,23 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+
+        // Accepted friends
+        public function friends()
+        {
+        return $this->belongsToMany(User::class, 'friend_requests', 'sender_id', 'receiver_id')
+            ->wherePivot('status', 'accepted')
+            ->withTimestamps();
+        }
+        public function sentRequests()
+        {
+            return $this->hasMany(FriendRequest::class, 'sender_id');
+        }
+
+        public function receivedRequests()
+        {
+            return $this->hasMany(FriendRequest::class, 'receiver_id');
+        }
 }

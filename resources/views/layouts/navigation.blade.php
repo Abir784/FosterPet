@@ -27,7 +27,7 @@
       <a href="{{ route('track.requests') }}" class="text-white list-group-item list-group-item-action bg-dark"> See Pets Applications</a>
       <a href="{{ route('applicant-types.create')}}" class="list-group-item list-group-item-action bg-dark text-white">Applications Type</a>
 
-      <a href="#messages" class="text-white list-group-item list-group-item-action bg-dark">Messages</a>
+      <a href="{{ route('friends.index')}}" class="text-white list-group-item list-group-item-action bg-dark">Friend Requests</a>
       <a href="#donations" class="text-white list-group-item list-group-item-action bg-dark">Donations</a>
       <a href="#settings" class="text-white list-group-item list-group-item-action bg-dark">Settings</a>
 

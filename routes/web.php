@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pets/add', [PetsController::class, 'add_pets'])->name('pets.add_pets');
     Route::post('/pets/store', [PetsController::class, 'add_pets_post'])->name('add_pets.post');
 
-    Route::get("/pets/update_form",[PetsController::class, "update_form"])->name('pets.update_form');
+    Route::get("/pets/update_form/{id}",[PetsController::class, "update_form"])->name('pets.update_form');
     Route::post('/pets/update_post', [PetsController::class, 'update_pets'])->name('pets.update_pet');
     Route::delete('/pets/delete', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
     Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');

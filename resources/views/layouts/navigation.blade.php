@@ -11,6 +11,7 @@
       <a href="#users" class="text-white list-group-item list-group-item-action bg-dark">Users</a>
       <a href="#messages" class="text-white list-group-item list-group-item-action bg-dark">Messages</a>
       <a href="#donations" class="text-white list-group-item list-group-item-action bg-dark">Donations</a>
+      <a href="{{ route('documents.index') }}" class="text-white list-group-item list-group-item-action bg-dark">Documents</a>
       <a href="#settings" class="text-white list-group-item list-group-item-action bg-dark">Settings</a>
 
     </div>

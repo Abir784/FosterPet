@@ -32,6 +32,7 @@
         <select name="type" id="type" class="custom-select">
           <option value="pet owner">Pet Owner</option>
           <option value="pet shelter">Pet Shelter</option>
+          <option value="adopter">Adopter</option>
         </select>
       </div>
 

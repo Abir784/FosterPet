@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
+use App\Models\Adoption;
+use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -16,15 +18,14 @@ use Illuminate\View\View;
 
 class PetsController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+
     public function add_pets(){
         return view('pets.add_pets');
     }
 
-
+    public function update_form(){
+        return view("pets.update_pets");
+    }
     public function show_pets(){
         $pets = pets::where('owner_id',Auth::id())->get();
         return view("pets.show_pets",[
@@ -64,7 +65,7 @@ class PetsController extends Controller
              'breed' => $request->breed,
              'health_condition' => $request->health_condition,
              'updated_at' => Carbon::now(),
-            ]);// id check kore
+            ]);// idcheck kore
 
 
 
@@ -84,7 +85,6 @@ class PetsController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:255',
-
             'age' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'health_condition' => 'required|string|max:255',
@@ -92,33 +92,33 @@ class PetsController extends Controller
             'remarks' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'temperament' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable',
         ]);
 
 
-    $imagePath = null;
+        $imagePath = null;
 
-if ($request->hasFile('image')) {
-    $image = $request->file('image');
-    $imageName = time() . '_' . $image->getClientOriginalName();
-    $imagepath = public_path('pets');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagepath = public_path('pets');
 
-    // Create the pets folder if it doesn't exist
-    if (!file_exists($imagepath)) {
-        mkdir($imagepath, 0755, true);
-    }
+            // Create the pets folder if it doesn't exist
+            if (!file_exists($imagepath)) {
+                mkdir($imagepath, 0755, true);
+            }
 
-    // Move the uploaded file to public/pets
-    $image->move($imagepath, $imageName);
+            // Move the uploaded file to public/pets
+            $image->move($imagepath, $imageName);
 
-    // Relative path to access via browser (e.g., /pets/image.jpg)
-    $imagePath = 'pets/' . $imageName;
-}
+            // Relative path to access via browser (e.g., /pets/image.jpg)
+            $imagePath = 'pets/' . $imageName;
+        }
 
 
 
        // ]);
-        pets::create([
+        $pet=pets::create([
             'name' => $request->name,
             'type' => $request->type,
             'age' => $request->age,
@@ -129,7 +129,12 @@ if ($request->hasFile('image')) {
             'location' => $request->location,
             'remarks' => $request->remarks,
             'owner_id' =>Auth::id(),
-            'image' => $image,
+            'image' => $imagePath,
+        ]);
+
+        Adoption::create([
+            'pet_id' => $pet->id,
+            'created_at' => Carbon::now(),
         ]);
 
 

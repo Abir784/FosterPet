@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ApplicantType;
 use App\Models\pets;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicantTypeController extends Controller
 {
@@ -12,8 +13,8 @@ class ApplicantTypeController extends Controller
     public function create()
     {
         // Fetch all pets to show in the form
-        $pets = pets::all();  
-        
+        $pets = pets::all();
+
         // Return the correct view (matching resources/views/applicant_type.blade.php)
         return view('applicant_type', compact('pets'));
     }
@@ -26,10 +27,10 @@ class ApplicantTypeController extends Controller
             'pet_id' => 'required|exists:pets,id',
             'foster_type' => 'required|in:short-term,permanent',
         ]);
-git 
+
         // Create a new applicant type record
         ApplicantType::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'pet_id' => $request->pet_id,
             'foster_type' => $request->foster_type,
             'status' => 'pending',

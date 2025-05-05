@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('adopterID');
             $table->string('status');
             $table->timestamps();
-            $table->foreignId('adoption_request_id')->constrained('adoption_requests')->onDelete('cascade');
+           // $table->foreignId('adoption_request_id')->constrained('adoption_requests')->onDelete('cascade');
 
         });
     }

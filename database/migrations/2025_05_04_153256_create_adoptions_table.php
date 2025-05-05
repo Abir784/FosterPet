@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('adoptions', function (Blueprint $table) {
             $table->id();
-            $table->foreign('pet_id')->references('id')->on('pets')->onDelete('cascade');
-            $table->foreign('OwnerID')->references('id')->on('users')->onDelete('cascade');
+            $table->integer("pet_id");
+                 
             $table->timestamps();
         });
     }

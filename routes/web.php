@@ -90,6 +90,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/friends', [FriendRequestController::class, 'myFriends']);
 
     // Messages
+
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::post('/message/send', [MessageController::class, 'send'])->name('message.send');
     Route::get('/message/conversation/{userId}', [MessageController::class, 'conversation'])->name('message.conversation');

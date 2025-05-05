@@ -18,4 +18,3 @@ class ApplicantType extends Model
         'status',
     ];
 }
-

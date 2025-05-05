@@ -26,7 +26,7 @@ class ApplicantTypeController extends Controller
             'pet_id' => 'required|exists:pets,id',
             'foster_type' => 'required|in:short-term,permanent',
         ]);
-
+git 
         // Create a new applicant type record
         ApplicantType::create([
             'user_id' => auth()->id(),

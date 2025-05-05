@@ -20,6 +20,7 @@
                 <th scope="col">Color</th>
                 <th scope="col">Health Condition</th>
                 <th scope="col">Image</th>
+                <th scope="col" style="text-align: center;">Update</th>
 
                 </tr>
               </thead>
@@ -34,6 +35,16 @@
                   <td>{{$pet->breed}}</td>
                   <td>{{$pet->color}}</td>
                   <td>{{$pet->health_condition}}</td>
+
+                  <td>
+                    <a href="{{ route('pets.update_form')}}">
+                    <button type="submit" class="form-button success">Edit</button>
+                    </a>
+                    <a href="{{ route('pets.update_pet')}}">
+                    <button type="submit" class="form-button danger" style="text-align: center;">Delete</button>
+                    </a>
+
+                  </td>
 
                 </tr>
                 @endforeach

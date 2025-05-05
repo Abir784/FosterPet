@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('adopter_id')->constrained('users');
-            $table->string('document_name');
+            $table->string('RequestID');
             $table->string('file_path');
-            $table->string('document_type')->nullable();
-            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

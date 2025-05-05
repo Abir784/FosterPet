@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
+use App\Models\Adoption;
+use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +23,9 @@ class PetsController extends Controller
         return view('pets.add_pets');
     }
 
-
+    public function update_form(){
+        return view("pets.update_pets");
+    }
     public function show_pets(){
         $pets = pets::where('owner_id',Auth::id())->get();
         return view("pets.show_pets",[
@@ -61,7 +65,7 @@ class PetsController extends Controller
              'breed' => $request->breed,
              'health_condition' => $request->health_condition,
              'updated_at' => Carbon::now(),
-            ]);// id check kore
+            ]);// idcheck kore
 
 
 
@@ -114,7 +118,7 @@ class PetsController extends Controller
 
 
        // ]);
-        pets::create([
+        $pet=pets::create([
             'name' => $request->name,
             'type' => $request->type,
             'age' => $request->age,
@@ -126,6 +130,11 @@ class PetsController extends Controller
             'remarks' => $request->remarks,
             'owner_id' =>Auth::id(),
             'image' => $imagePath,
+        ]);
+
+        Adoption::create([
+            'pet_id' => $pet->id,
+            'created_at' => Carbon::now(),
         ]);
 
 

@@ -21,9 +21,8 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Document Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
+                            <th>Request ID</th>
+                            <th>Document</th>
                             <th>Uploaded Date</th>
                             <th>Actions</th>
                         </tr>
@@ -31,9 +30,12 @@
                     <tbody>
                         @foreach($documents as $document)
                             <tr>
-                                <td>{{ $document->document_name }}</td>
-                                <td>{{ $document->document_type ?? 'N/A' }}</td>
-                                <td>{{ $document->description ?? 'N/A' }}</td>
+                                <td>{{ $document->RequestID }}</td>
+                                <td>
+                                    <a href="{{ asset('storage/' . $document->file_path) }}" class="text-blue-600 hover:text-blue-800" target="_blank">
+                                        View Document
+                                    </a>
+                                </td>
                                 <td>{{ $document->created_at->format('M d, Y') }}</td>
                                 <td>
                                     <a href="{{ asset('storage/' . $document->file_path) }}" class="btn btn-sm btn-info" target="_blank">View</a>

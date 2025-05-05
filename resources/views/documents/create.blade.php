@@ -14,11 +14,14 @@
                     <form method="POST" action="{{ route('documents.store') }}" enctype="multipart/form-data">
                         @csrf
 
-                        <div>
-                            <select name="RequestID" id="">
-                                @foreach ($request as $req )
-                                <option value="{{$req->id}}">{{$req->pet->name}}</option>
-
+                        <div class="mb-4">
+                            <label for="RequestID" class="block text-sm font-medium text-gray-700 mb-2">Select Pet</label>
+                            <select name="RequestID" id="RequestID" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm">
+                                <option value="" disabled selected>Choose a pet...</option>
+                                @foreach ($requests as $req)
+                                    <option value="{{$req->id}}" class="py-2">
+                                        {{App\Models\pets::where('id',$req->adoption->pet_id)->get("name")[0]['name']}}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

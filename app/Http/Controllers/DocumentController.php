@@ -6,22 +6,24 @@ use App\Models\Document;
 use App\Models\AdoptionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 
 class DocumentController extends Controller
 {
     public function index()
     {
-        $documents = Document::with('adopter')->get();
+        $documents = Document::all();
         return view('documents.index', compact('documents'));
     }
 
     public function create()
     {
-        $requests=AdoptionRequest::where('AdopterID',Auth::id())->get();
+        $requests=AdoptionRequest::where('adopterID',Auth::id())->get();
 
         return view('documents.create',
     [
-        'requests'=>$request,
+        'requests'=>$requests,
     ]);
 
     }
@@ -29,21 +31,16 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'document_name' => 'required|string|max:255',
-            'document' => 'required|file|mimes:pdf,doc,docx|max:10240',
-            'document_type' => 'nullable|string|max:255',
-            'description' => 'nullable|string'
+            'RequestID' => 'required|string',
+            'document' => 'required|file|mimes:pdf,doc,docx|max:10240'
         ]);
 
         $file = $request->file('document');
         $path = $file->store('documents', 'public');
 
         Document::create([
-            'adopter_id' => auth()->id(),
-            'document_name' => $request->document_name,
-            'file_path' => $path,
-            'document_type' => $request->document_type,
-            'description' => $request->description
+            'RequestID' => $request->RequestID,
+            'file_path' => $path
         ]);
 
         return redirect()->route('documents.index')

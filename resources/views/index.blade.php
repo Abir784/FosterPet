@@ -82,7 +82,7 @@
           <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
           <li class="nav-item"><a class="nav-link" href="#adoption">Adoption</a></li>
           <li class="nav-item"><a class="nav-link" href="#fostering">Fostering</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('pets.add_pets') }}">Pets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#pets">Pets</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
 
             <li class="nav-item">

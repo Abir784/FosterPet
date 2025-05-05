@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AdoptionController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MessageReportController;
+use App\Http\Controllers\Admin\ReportManagementController;
 use App\Http\Controllers\PetsController;
-
 use App\Http\Controllers\ApplicantTypeController;
 use App\Http\Controllers\FriendRequestController;
 use App\Models\AdoptionRequest;
@@ -33,7 +35,24 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function () {
+
+    Route::get('/reports', [\App\Http\Controllers\Admin\ReportManagementController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{report}', [\App\Http\Controllers\Admin\ReportManagementController::class, 'show'])->name('reports.show');
+    Route::post('/reports/{report}/respond', [\App\Http\Controllers\Admin\ReportManagementController::class, 'respond'])->name('reports.respond');
+    // Messages
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/unread-count', [MessageController::class, 'getUnreadCount'])->name('messages.unread-count');
+
+    // Documents
+    Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+    Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
+    Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
+    Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -71,8 +90,11 @@ Route::middleware('auth')->group(function () {
     // Route::get('/friends', [FriendRequestController::class, 'myFriends']);
 
     // Messages
-    // Route::post('/message/send', [MessageController::class, 'send']);
-    // Route::get('/message/conversation/{userId}', [MessageController::class, 'conversation'])
+
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::post('/message/send', [MessageController::class, 'send'])->name('message.send');
+    Route::get('/message/conversation/{userId}', [MessageController::class, 'conversation'])->name('message.conversation');
+    Route::post('/message/report', [MessageReportController::class, 'store'])->name('message.report');
 });
 
 require __DIR__.'/auth.php';

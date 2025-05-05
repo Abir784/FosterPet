@@ -14,19 +14,18 @@ return new class extends Migration
         Schema::create('applicant_types', function (Blueprint $table) {
             $table->id();
             
-            // Reference to the users table
+           
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             
-            // Reference to the adoption_requests table instead of pets
+           
             $table->foreignId('adoption_request_id')->constrained('adoption_requests')->onDelete('cascade');
             
-            // Enum for foster type: short-term or permanent
+           
             $table->enum('foster_type', ['short-term', 'permanent']);
             
-            // Enum for status: pending, approved, or rejected
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             
-            // Timestamps for tracking created and updated times
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+           
             $table->timestamps();
         });
     }

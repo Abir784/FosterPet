@@ -23,8 +23,12 @@ class PetsController extends Controller
         return view('pets.add_pets');
     }
 
-    public function update_form(){
-        return view("pets.update_pets");
+
+    public function update_form(Request $request, $id){
+        $pets = pets::where("id", $id)->get();
+        return view("pets.update_pets",[
+            "pets"=>$pets,
+        ]);
     }
     public function show_pets(){
         $pets = pets::where('owner_id',Auth::id())->get();
@@ -35,7 +39,6 @@ class PetsController extends Controller
 
     public function update_pets(Request $request){
         // print_r($request->all());
-
          $request->validate(
              [
                  'name' => 'required',
@@ -66,8 +69,6 @@ class PetsController extends Controller
              'health_condition' => $request->health_condition,
              'updated_at' => Carbon::now(),
             ]);// id check kore
-
-
 
             return back()->with('success','Pets Updated Successfully');
            // return redirect()->route('profile_update')->with('success','Profile Updated Successfully');

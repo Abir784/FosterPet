@@ -23,14 +23,14 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">🐶 Name</label>
-                    <input type="text" id="name" name="name" placeholder="{{ optional(Auth::user()->pet)->name }}" value="{{ old('name') }}">
+                    <input type="text" id="name" name="name" placeholder="Enter Pets Name:" value="{{$pets->name}}">
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="form-group">
 
 
                     <label for="type">🐾 Type</label>
-                    <input type="text" id="type" name="type" list="petTypes" placeholder="{{ old('type') }}" value="{{ old('type') }}"  >
+                    <input type="text" id="type" name="type" list="petTypes" placeholder="{{ old('type') }}" value="{{$pets->type}}"  >
                     <datalist id="petTypes">
                         <option value="Dog">
                         <option value="Cat">

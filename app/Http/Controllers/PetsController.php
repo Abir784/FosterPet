@@ -65,6 +65,7 @@ class PetsController extends Controller
             'location.required' => 'Location is required',
             'health_condition.required' => 'Health condition is required'
         ]);
+    
 
         // Get the pet ID from the URL parameter
         $petId = $request->route('id');
@@ -95,9 +96,21 @@ class PetsController extends Controller
      }
 
 
-    public function destroy_pet($id){
-        pets::find($id)->delete();
-        return back()->with('success','Deleted Successfully');
+    public function destroy_pet($id) {
+        // Find the pet and ensure it belongs to the current user
+        $pet = pets::where('id', $id)
+                    ->where('owner_id', Auth::id())
+                    ->first();
+
+        if (!$pet) {
+            return back()->with('error', 'Pet not found or unauthorized');
+        }
+
+        // Delete the pet
+        $pet->delete();
+
+        // Redirect back to pets list with success message
+        return redirect()->route('show.pets')->with('success', 'Pet deleted successfully');
     }
 
     public function add_pets_post(Request $request){

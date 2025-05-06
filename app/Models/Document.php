@@ -4,17 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
-class ApplicantType extends Model
+class Document extends Model
 {
     use HasFactory;
 
-    protected $table = 'applicant_types';
-
     protected $fillable = [
-        'user_id',
-        'pet_id',
-        'foster_type',
-        'status',
+        'RequestID',
+        'file_path'
     ];
 }

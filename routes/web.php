@@ -51,7 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/pets/store', [PetsController::class, 'add_pets_post'])->name('add_pets.post');
 
     Route::get("/pets/update_form/{id}",[PetsController::class, "update_form"])->name('pets.update_form');
-    Route::post('/pets/update_post', [PetsController::class, 'update_pets'])->name('pets.update_pet');
+    
+    Route::post('/pets/update_post/{id}', [PetsController::class, 'update_pets'])->name('pets.update_pet');
     Route::delete('/pets/delete', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
     Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');
     Route::get("/pets/adopt/show",[AdoptionController::class,"adoption_list"])->name('track.requests');

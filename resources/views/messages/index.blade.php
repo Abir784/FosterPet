@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <div class="grid grid-cols-1 gap-4">
-                        @foreach($users as $user)
+                        @foreach($friends as $user)
                             <div class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow duration-200">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center space-x-4">

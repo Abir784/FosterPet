@@ -5,9 +5,9 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetsController;
-
 use App\Http\Controllers\ApplicantTypeController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\AdoptionResponseController;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
@@ -59,6 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
     //Adopter
     Route::get('/adoption/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
+    
+    // Adoption Responses - Community Input System
+    Route::get('/adoption-responses', [AdoptionResponseController::class, 'index'])->name('adoption-responses.index');
+    Route::get('/adoption-responses/{adoptionRequest}', [AdoptionResponseController::class, 'show'])->name('adoption-responses.show');
+    Route::post('/adoption-responses/{adoptionRequest}/respond', [AdoptionResponseController::class, 'storeResponse'])->name('adoption-responses.respond');
+    Route::post('/adoption-responses/{adoptionRequest}/decision', [AdoptionResponseController::class, 'makeDecision'])->name('adoption-responses.decision');
 
     // Applicant Types (Foster Application)
     Route::get('/foster/apply', [ApplicantTypeController::class, 'create'])->name('applicant-types.create'); // Show foster application form

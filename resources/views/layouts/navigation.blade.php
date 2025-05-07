@@ -25,6 +25,7 @@
 
       @endphp
       <a href="{{ route('track.requests') }}" class="text-white list-group-item list-group-item-action bg-dark"> See Pets Applications</a>
+      <a href="{{ route('adoption-responses.index') }}" class="text-white list-group-item list-group-item-action bg-dark">Community Adoption Responses</a>
       <a href="{{ route('applicant-types.create')}}" class="list-group-item list-group-item-action bg-dark text-white">Applications Type</a>
 
       <a href="{{ route('friends.index')}}" class="text-white list-group-item list-group-item-action bg-dark">Friend Requests</a>

@@ -92,12 +92,26 @@ Route::middleware('auth')->group(function () {
         // Add this route to fix the "adoption.index not defined" error
         Route::get('/', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
     });
+
+    // Add this route to fix the "adoption.index not defined" error
+    Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
+    //Adopter
+    Route::get('/adoption/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
     
     // Adoption Responses - Community Input System
     Route::get('/adoption-responses', [AdoptionResponseController::class, 'index'])->name('adoption-responses.index');
     Route::get('/adoption-responses/{adoptionRequest}', [AdoptionResponseController::class, 'show'])->name('adoption-responses.show');
     Route::post('/adoption-responses/{adoptionRequest}/respond', [AdoptionResponseController::class, 'storeResponse'])->name('adoption-responses.respond');
     Route::post('/adoption-responses/{adoptionRequest}/decision', [AdoptionResponseController::class, 'makeDecision'])->name('adoption-responses.decision');
+
+    // Adoption Routes
+    Route::prefix('adoption')->group(function () {
+        Route::get('/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
+        Route::get('/status', [AdoptionController::class, 'updateStatus'])->name('adoption.status');
+        Route::post('/update/{id}', [AdoptionController::class, 'updateStatus'])->name('adoption.update');
+        Route::get('/{id}', [AdoptionController::class, 'show'])->name('adoption.show');
+    });
+
 
     // Applicant Types (Foster Application)
     Route::get('/foster/apply', [ApplicantTypeController::class, 'create'])->name('applicant-types.create'); // Show foster application form

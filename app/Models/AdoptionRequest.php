@@ -26,6 +26,7 @@ class AdoptionRequest extends Model
      {
          return $this->belongsTo(Adoption::class, 'adoptionID');
      }
+
      
      /**
       * Get the responses for the adoption request.
@@ -74,4 +75,5 @@ class AdoptionRequest extends Model
     {
         return $this->hasOne(ApplicantType::class, 'adoption_request_id', 'id');
     }
+
 }

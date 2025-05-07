@@ -30,6 +30,11 @@
 
       <a href="{{ route('friends.index')}}" class="text-white list-group-item list-group-item-action bg-dark">Friend Requests</a>
       <a href="#donations" class="text-white list-group-item list-group-item-action bg-dark">Donations</a>
+      <a href="{{ route('documents.index') }}" class="text-white list-group-item list-group-item-action bg-dark">Documents</a>
+      <a href="{{ route('messages.index') }}" class="text-white list-group-item list-group-item-action bg-dark">Messages</a>
+      @if(Auth::user()->role === 'admin')
+      <a href="{{ route('reports.index') }}" class="text-white list-group-item list-group-item-action bg-dark">Reports</a>
+      @endif
       <a href="#settings" class="text-white list-group-item list-group-item-action bg-dark">Settings</a>
 
 

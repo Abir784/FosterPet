@@ -64,4 +64,12 @@ class User extends Authenticatable
         {
             return $this->hasMany(FriendRequest::class, 'receiver_id');
         }
+
+    /**
+     * Get all documents uploaded by the user.
+     */
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 }

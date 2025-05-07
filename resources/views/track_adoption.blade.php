@@ -8,7 +8,7 @@
                 @foreach ($adoption_requests as $req )
                 <div class="mb-4 col-md-4">
                     <div class="shadow-sm card h-100">
-                        <img src={{asset(App\Models\pets::where('id',$req->adoption->pet_id)->get('image')[0]['image'])}}    class="card-img-top" alt="{{App\Models\pets::where('id',$req->adoption->pet_id)->get('image')[0]['image']}}">
+                        <img src={{asset(App\Models\pets::where('id',$req->adoption->pet_id)->get('image')[0]['image'])}} class="card-img-top" alt={{App\Models\pets::where('id',$req->adoption->pet_id)->get('image')[0]['image']}}>
                         <div class="card-body">
                             <h5 class="card-title"></h5>
                             <p class="card-text">

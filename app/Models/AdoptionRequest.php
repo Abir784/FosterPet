@@ -21,4 +21,20 @@ class AdoptionRequest extends Model
      {
          return $this->belongsTo(Adoption::class, 'adoptionID');
      }
+
+    /**
+     * Get all documents associated with this adoption request.
+     */
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'RequestID', 'adoptionID');
+    }
+
+    /**
+     * Get the foster application type for this adoption request.
+     */
+    public function applicantType()
+    {
+        return $this->hasOne(ApplicantType::class, 'adoption_request_id', 'id');
+    }
 }

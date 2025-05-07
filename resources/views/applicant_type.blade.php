@@ -66,11 +66,9 @@
     @endif
 </div>
 
-@push('scripts')
 <script>
 // Function to toggle fields based on selection
 function toggleFields() {
-    console.log('toggleFields called');
     const fosterType = document.getElementById('foster_type');
     if (!fosterType) {
         console.error('foster_type element not found');
@@ -78,26 +76,31 @@ function toggleFields() {
     }
 
     const type = fosterType.value;
-    console.log('Selected type:', type);
+    const shortTermFields = document.getElementById('short-term-fields');
+    const permanentFields = document.getElementById('permanent-fields');
 
     // Toggle short-term fields
-    const shortTermFields = document.getElementById('short-term-fields');
-    console.log('Short term fields element:', shortTermFields);
     if (shortTermFields) {
-        const displayValue = (type === 'short-term') ? 'block' : 'none';
-        console.log('Setting short term fields display to:', displayValue);
-        shortTermFields.style.display = displayValue;
+        shortTermFields.style.display = (type === 'short-term') ? 'block' : 'none';
     }
 
     // Toggle permanent fields
-    const permanentFields = document.getElementById('permanent-fields');
-    console.log('Permanent fields element:', permanentFields);
     if (permanentFields) {
-        const displayValue = (type === 'permanent') ? 'block' : 'none';
-        console.log('Setting permanent fields display to:', displayValue);
-        permanentFields.style.display = displayValue;
+        permanentFields.style.display = (type === 'permanent') ? 'block' : 'none';
     }
 }
+
+// Add event listeners when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial toggle on page load
+    toggleFields();
+    
+    // Add change event listener to the select element
+    const fosterTypeSelect = document.getElementById('foster_type');
+    if (fosterTypeSelect) {
+        fosterTypeSelect.addEventListener('change', toggleFields);
+    }
+});
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -120,5 +123,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-@endpush
 </x-app-layout>

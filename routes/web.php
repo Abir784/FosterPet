@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\ReportManagementController;
 use App\Http\Controllers\PetsController;
 use App\Http\Controllers\ApplicantTypeController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DonationController;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +44,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportManagementController::class, 'index'])->name('reports.index');
     Route::get('/reports/{report}', [\App\Http\Controllers\Admin\ReportManagementController::class, 'show'])->name('reports.show');
     Route::post('/reports/{report}/respond', [\App\Http\Controllers\Admin\ReportManagementController::class, 'respond'])->name('reports.respond');
+    // Donations
+    Route::prefix('donations')->group(function () {
+        Route::get('/', [DonationController::class, 'index'])->name('donations.index');
+        Route::get('/demo-data', [DonationController::class, 'createDemoData'])->name('donations.demo');
+        Route::get('/{donation}', [DonationController::class, 'show'])->name('donations.show');
+        Route::post('/{donation}/allocate', [DonationController::class, 'allocate'])->name('donations.allocate');
+        Route::post('/allocation/{allocation}/approve', [DonationController::class, 'approveAllocation'])->name('donations.approve-allocation');
+    });
+
     // Messages
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
@@ -64,21 +75,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/pets/store', [PetsController::class, 'add_pets_post'])->name('add_pets.post');
 
     Route::get("/pets/update_form/{id}",[PetsController::class, "update_form"])->name('pets.update_form');
-    
+
     Route::post('/pets/update_post/{id}', [PetsController::class, 'update_pets'])->name('pets.update_pet');
     Route::delete('/pets/delete/{id}', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
     Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');
     Route::get("/pets/adopt/show",[AdoptionController::class,"adoption_list"])->name('track.requests');
-    Route::get('/pets/details', [PetsController::class, 'show_pets'])->name('show.pets');
 
-    // Adoption
-    Route::get('/adoption/status', [AdoptionController::class, 'updateStatus'])->name('adoption.status');
-    Route::post('/adoption/update/{id}', [AdoptionController::class, 'updateStatus'])->name('adoption.update');
-
-    // Add this route to fix the "adoption.index not defined" error
-    Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
-    //Adopter
-    Route::get('/adoption/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
+    // Adoption Routes
+    Route::prefix('adoption')->group(function () {
+        Route::get('/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
+        Route::get('/status', [AdoptionController::class, 'updateStatus'])->name('adoption.status');
+        Route::post('/update/{id}', [AdoptionController::class, 'updateStatus'])->name('adoption.update');
+        Route::get('/{id}', [AdoptionController::class, 'show'])->name('adoption.show');
+    });
 
     // Applicant Types (Foster Application)
     Route::get('/foster/apply', [ApplicantTypeController::class, 'create'])->name('applicant-types.create'); // Show foster application form
@@ -88,7 +97,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/friend-request/send', [FriendRequestController::class, 'send'])->name('friends.send');
     Route::post('/friend-request/accept/{id}', [FriendRequestController::class, 'accept'])->name('friends.accept');
     Route::post('/friend-request/decline/{id}', [FriendRequestController::class, 'decline'])->name('friends.reject');
-    // Route::get('/friends', [FriendRequestController::class, 'myFriends']);
 
     // Messages
 

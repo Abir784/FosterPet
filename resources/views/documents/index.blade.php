@@ -15,10 +15,16 @@
         </div>
     @endif
 
-    <div class="card">
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h3 class="card-title mb-0">Documents List</h3>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-hover table-striped align-middle">
                     <thead>
                         <tr>
                             <th>Request ID</th>
@@ -32,15 +38,20 @@
                             <tr>
                                 <td>{{ $document->RequestID }}</td>
                                 <td>
-                                    <a href="{{ asset('storage/' . $document->file_path) }}" class="text-blue-600 hover:text-blue-800" target="_blank">
-                                        View Document
-                                    </a>
+                                    <span class="badge bg-secondary">{{ pathinfo($document->file_path, PATHINFO_EXTENSION) }}</span>
+                                    {{ basename($document->file_path) }}
                                 </td>
-                                <td>{{ $document->created_at->format('M d, Y') }}</td>
+                                <td>{{ $document->created_at->format('M d, Y H:i') }}</td>
                                 <td>
-                                    <a href="{{ asset('storage/' . $document->file_path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
-                                    <form action="{{ route('documents.destroy', $document) }}" method="POST" class="d-inline">
-                                        @csrf
+                                    <div class="btn-group" role="group">
+                                        <a href="{{ asset('storage/public/' . $document->file_path) }}" class="btn btn-sm btn-info" target="_blank">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+                                        <a href="{{ asset('storage/public/' . $document->file_path) }}" class="btn btn-sm btn-success" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                        <form action="{{ route('documents.destroy', $document) }}" method="POST" class="d-inline">
+                                            @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                     </form>

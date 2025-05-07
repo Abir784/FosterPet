@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('adoptions', function (Blueprint $table) {
             $table->id();
-            $table->integer("pet_id");
-                 
             $table->string('pet_id');
             $table->timestamps();
         });

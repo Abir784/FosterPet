@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
+//use App\Http\Controllers\Illuminate\Http\Request;
 use App\Models\Adoption;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
@@ -23,8 +24,21 @@ class PetsController extends Controller
         return view('pets.add_pets');
     }
 
-    public function update_form(){
-        return view("pets.update_pets");
+    //use Illuminate\Http\Request;
+
+    public function update_form($id){
+        // Find the pet and ensure it belongs to the current user
+        $pet = pets::where('id', $id)
+                    ->where('owner_id', Auth::id())
+                    ->first();
+
+        if (!$pet) {
+            return back()->with('error', 'Pet not found or unauthorized');
+        }
+
+        return view("pets.update_pets", [
+            "pet" => $pet
+        ]);
     }
     public function show_pets(){
         $pets = pets::where('owner_id',Auth::id())->get();
@@ -35,49 +49,68 @@ class PetsController extends Controller
 
     public function update_pets(Request $request){
         // print_r($request->all());
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required|in:Dog,Cat,Bird,Fish,Other',
+            'age' => 'required',
+            'breed' => 'required',
+            'location' => 'required',
+            'health_condition' => 'required',
+        ], [
+            'name.required' => 'Name is required',
+            'type.required' => 'Type is required',
+            'type.in' => 'Please select a valid pet type',
+            'age.required' => 'Age is required',
+            'breed.required' => 'Breed is required',
+            'location.required' => 'Location is required',
+            'health_condition.required' => 'Health condition is required'
+        ]);
+    
 
-         $request->validate(
-             [
-                 'name' => 'required',
-                 'type' => 'required|in:Dog,Cat,Bird,Fish,Other',
-                 'age' => 'required',
-                 'breed' => 'required',
-                 'location' => 'required',
-                 'health_condition' => 'required',
-             ],
-             [
-                 'name.required' => 'Name is required',
-                 'type.required' => 'Type is required',
-                 'type.in' => 'Please select a valid pet type',
-                 'age.required' => 'Age is required',
-                 'breed.required' => 'Breed is required',
-                 'location.required' => 'location is required',
-                 'health_condition' => 'health condition is required'
-                 //'phone_number.numeric' => 'Phone number must be numeric',
-             ]
-             );
-            pets::where('id',Auth::user()->id)->update([
-             'name' => $request->name,
-             'age' => $request->age,
-             'type' => $request->type,
-             'location' => $request->location,
-             'color' => $request->color,
-             'breed' => $request->breed,
-             'health_condition' => $request->health_condition,
-             'updated_at' => Carbon::now(),
-            ]);// idcheck kore
+        // Get the pet ID from the URL parameter
+        $petId = $request->route('id');
+        
+        // Find the pet and check if it belongs to the current user
+        $pet = pets::where('id', $petId)
+                    ->where('owner_id', Auth::id())
+                    ->first();
 
+        if (!$pet) {
+            return back()->with('error', 'Pet not found or unauthorized');
+        }
 
+        // Update the pet details
+        $pet->update([
+            'name' => $request->name,
+            'age' => $request->age,
+            'type' => $request->type,
+            'location' => $request->location,
+            'color' => $request->color,
+            'breed' => $request->breed,
+            'health_condition' => $request->health_condition,
+            'updated_at' => Carbon::now(),
+        ]);
 
-            return back()->with('success','Pets Updated Successfully');
-           // return redirect()->route('profile_update')->with('success','Profile Updated Successfully');
+        return back()->with('success', 'Pet details updated successfully');
 
      }
 
 
-    public function destroy_pet($id){
-        pets::find($id)->delete();
-        return back()->with('success','Deleted Successfully');
+    public function destroy_pet($id) {
+        // Find the pet and ensure it belongs to the current user
+        $pet = pets::where('id', $id)
+                    ->where('owner_id', Auth::id())
+                    ->first();
+
+        if (!$pet) {
+            return back()->with('error', 'Pet not found or unauthorized');
+        }
+
+        // Delete the pet
+        $pet->delete();
+
+        // Redirect back to pets list with success message
+        return redirect()->route('show.pets')->with('success', 'Pet deleted successfully');
     }
 
     public function add_pets_post(Request $request){

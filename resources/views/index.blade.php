@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FosterPet</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <style>
     body {
       font-family: 'Georgia', serif;
@@ -70,6 +71,8 @@
 </head>
 <body>
 
+
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark bg-opacity-50">
     <div class="container">
@@ -81,9 +84,17 @@
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
           <li class="nav-item"><a class="nav-link" href="#adoption">Adoption</a></li>
-          <li class="nav-item"><a class="nav-link" href="#fostering">Fostering</a></li>
-          <li class="nav-item"><a class="nav-link" href="#pets">Pets</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#fostering">Fostering</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#donations"><i class="fas fa-gift"></i> Donations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#pets">Pets</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
 
             <li class="nav-item">
                 @auth
@@ -131,7 +142,6 @@
       <p class="lead">We’re dedicated to rescuing, fostering, and finding forever homes for abandoned animals. Join our mission to make tails wag again!</p>
     </div>
   </section>
-
   <!-- Adoption Process -->
   <section id="adoption" class="text-center">
     <div class="container">
@@ -255,7 +265,69 @@
       </form>
     </div>
   </section>
-
+  <!-- Donation Statistics -->
+  <section id="donations" class="text-center bg-light">
+    <div class="container">
+      <h2 class="section-title">Donation Impact</h2>
+      <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+          <p class="lead">Your generosity helps us provide better care for our furry friends.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center mb-3">
+                <i class="fas fa-gift fa-3x text-primary"></i>
+              </div>
+              <h3 class="card-title h4">Total Donations</h3>
+              <div class="display-4 fw-bold text-success mb-3">
+                ${{ number_format($totalDonations, 2) }}
+              </div>
+              <p class="card-text text-muted">Received from our generous supporters</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center mb-3">
+                <i class="fas fa-chart-pie fa-3x text-primary"></i>
+              </div>
+              <h3 class="card-title h4">Allocated Funds</h3>
+              <div class="display-4 fw-bold text-success mb-3">
+                ${{ number_format($totalAllocations, 2) }}
+              </div>
+              <p class="card-text text-muted">Distributed to various pet care needs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h4 class="mb-3">Allocation Progress</h4>
+              <div class="progress" style="height: 25px;">
+                @php
+                  $percentage = $totalDonations > 0 ? ($totalAllocations / $totalDonations) * 100 : 0;
+                @endphp
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                     role="progressbar"
+                     style="width: {{ $percentage }}%"
+                     aria-valuenow="{{ $percentage }}"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                  {{ number_format($percentage, 1) }}% Allocated
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- Contact -->
   <section id="contact" class="text-center">
     <div class="container">

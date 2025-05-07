@@ -34,7 +34,7 @@
                             </select>
                         </form>
                         <br>
-                        <a href="#" class="btn btn-primary">View  Details</a>
+                        <a href="{{ route('adoption.show', $req->adoptionID) }}" class="btn btn-primary">View Details</a>
                     </div>
                 </div>
             </div>

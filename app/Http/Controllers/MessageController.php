@@ -11,8 +11,15 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $users = User::where('id', '!=', Auth::id())->get();
-        return view('messages.index', compact('users'));
+        $user = Auth::user();
+        
+        // Get all users who are friends with the current user
+        $friends = $user->friends()
+            ->withPivot('created_at')
+            ->orderBy('friend_requests.created_at', 'desc')
+            ->get();
+            
+        return view('messages.index', compact('friends'));
     }
 
     public function conversation($userId)

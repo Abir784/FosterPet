@@ -42,11 +42,28 @@ class AdoptionController extends Controller
     }
 
     public function track_adoption(){
-
         $adoption_requests = AdoptionRequest::where('adopterID', Auth::id())->with('adoption.pet')->get();
 
         return view('track_adoption', [
             'adoption_requests' => $adoption_requests,
         ]);
+    }
+
+
+    public function show($id)
+    {
+        $adoptionRequest = AdoptionRequest::with([
+            'adoption.pet',
+            'adopter',
+            'documents',
+            'applicantType'
+        ])->findOrFail($id);
+
+        // Check if the current user is authorized to view this adoption request
+        if (Auth::id() !== $adoptionRequest->adoption->pet->owner_id && Auth::id() !== $adoptionRequest->adopterID) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('adoption.show', compact('adoptionRequest'));
     }
 }

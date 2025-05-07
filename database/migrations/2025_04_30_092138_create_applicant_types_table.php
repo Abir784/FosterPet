@@ -13,19 +13,17 @@ return new class extends Migration
     {
         Schema::create('applicant_types', function (Blueprint $table) {
             $table->id();
-            
-           
+
+
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            
-           
+
+
             $table->foreignId('adoption_request_id')->constrained('adoption_requests')->onDelete('cascade');
-            
-           
+
+
             $table->enum('foster_type', ['short-term', 'permanent']);
-            
-            
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-           
+
+
             $table->timestamps();
         });
     }

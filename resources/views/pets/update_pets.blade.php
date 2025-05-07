@@ -17,20 +17,21 @@
     <div class="form-container">
         <h2> 🐾 Add Pet Details</h2>
 
-        <form action="{{ route('pets.update_pet') }}" method="post" enctype="multipart/form-data">
-            @csrf
+        <form action="{{ route('pets.update_pet', $pet->id) }}" method="post" enctype="multipart/form-data">
+            @csrf 
+            <input type="hidden" name="id" value="{{ $pet->id }}">
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">🐶 Name</label>
-                    <input type="text" id="name" name="name" placeholder="{{ optional(Auth::user()->pet)->name }}" value="{{ old('name') }}">
+                    <input type="text" id="name" name="name" placeholder="Enter Pets Name:" value="{{ $pet->name }}">
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
                 <div class="form-group">
 
 
                     <label for="type">🐾 Type</label>
-                    <input type="text" id="type" name="type" list="petTypes" placeholder="{{ old('type') }}" value="{{ old('type') }}"  >
+                    <input type="text" id="type" name="type" list="petTypes" placeholder="{{ old('type') }}" value="{{ $pet->type }}"  >
                     <datalist id="petTypes">
                         <option value="Dog">
                         <option value="Cat">
@@ -42,7 +43,7 @@
                 </div>
                 <div class="form-group">
                     <label for="age">📅 Age</label>
-                    <input type="text" id="age" name="age" placeholder="Enter pet's age" value="{{ old('age') }}" >
+                    <input type="text" id="age" name="age" placeholder="Enter pet's age" value="{{ $pet->age }}" >
                     <x-input-error :messages="$errors->get('age')" class="mt-2" />
                 </div>
             </div>
@@ -50,12 +51,12 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="breed">🐕 Breed</label>
-                    <input type="text" id="breed" name="breed" placeholder="Enter breed" value="{{ old('breed') }}" >
+                    <input type="text" id="breed" name="breed" placeholder="Enter breed" value="{{ $pet->breed }}" >
                     <x-input-error :messages="$errors->get('breed')" class="mt-2" />
                 </div>
                 <div class="form-group">
                     <label for="health_condition">❤️ Health Condition</label>
-                    <input type="text" id="health_condition" name="health_condition" placeholder="Enter health condition" value="{{ old('health_condition') }}"  >
+                    <input type="text" id="health_condition" name="health_condition" placeholder="Enter health condition" value="{{ $pet->health_condition }}"  >
                     <x-input-error :messages="$errors->get('health_condition')" class="mt-2" />
                 </div>
             </div>
@@ -63,7 +64,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="color">🎨 Color</label>
-                    <input type="text" id="color" name="color" placeholder="Enter color" value="{{ old('color') }}" >
+                    <input type="text" id="color" name="color" placeholder="Enter color" value="{{ $pet->color }}" >
                     <x-input-error :messages="$errors->get('color')" class="mt-2" />
                 </div>
                 <div class="form-group">
@@ -73,7 +74,7 @@
                 </div>
                 <div class="form-group">
                     <label for="remarks">📝 Remarks</label>
-                    <input type="text" id="remarks" name="remarks" placeholder="Enter remarks" value="{{ old('remarks') }}" >
+                    <input type="text" id="remarks" name="remarks" placeholder="Enter remarks" value="{{ $pet->remarks }}" >
                     <x-input-error :messages="$errors->get('remarks')" class="mt-2" />
                 </div>
             </div>
@@ -81,12 +82,12 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="location">📍 Location</label>
-                    <input type="text" id="location" name="location" placeholder="Enter location" value="{{ old('location') }}" >
+                    <input type="text" id="location" name="location" placeholder="Enter location" value="{{ $pet->location }}" >
                     <x-input-error :messages="$errors->get('location')" class="mt-2" />
                 </div>
                 <div class="form-group full-width">
                     <label for="temperament">😺 Temperament</label>
-                    <input type="text" id="temperament" name="temperament" placeholder="Describe temperament" value="{{ old('temperament') }}" >
+                    <input type="text" id="temperament" name="temperament" placeholder="Describe temperament" value="{{ $pet->temperament }}" >
                     <x-input-error :messages="$errors->get('temperament')" class="mt-2" />
                 </div>
             </div>

@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('adoptions', function (Blueprint $table) {
-            $table->id();
-            $table->string('pet_id');
-            $table->timestamps();
+        Schema::table('donations', function (Blueprint $table) {
+            $table->foreignId('user_id')->nullable()->after('id')->constrained()->nullOnDelete();
         });
     }
 
@@ -23,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('adoptions');
+        Schema::table('donations', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+        });
     }
 };

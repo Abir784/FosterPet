@@ -36,7 +36,14 @@ class DocumentController extends Controller
         ]);
 
         $file = $request->file('document');
-        $path = $file->store('documents', 'public');
+        $extension = $file->getClientOriginalExtension();
+        $timestamp = now()->format('Y-m-d-H-i-s');
+        $filename = $request->RequestID . '-' . $timestamp . '.' . $extension;
+
+        // Store the file in the public/documents directory
+        $path = $file->storeAs('documents', $filename, 'public');
+        print_r($path);
+        die();
 
         Document::create([
             'RequestID' => $request->RequestID,

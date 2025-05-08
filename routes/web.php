@@ -41,15 +41,14 @@ Route::get('/dashboard', function () {
 // Pet Details
 Route::get('/pet/{id}', [PetsController::class, 'show_pet'])->name('pet.show');
 
-// Donations
+// Public Donation Routes
 Route::get('/donate', [DonationController::class, 'create'])->name('donations.create');
-Route::post('/donate', [DonationController::class, 'store'])->name('donations.store');
+Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
+Route::get('/donations/capture', [DonationController::class, 'capture'])->name('donations.capture');
 Route::get('/donation/success/{id}', [DonationController::class, 'success'])->name('donations.success');
 Route::get('/donation/cancel', [DonationController::class, 'cancel'])->name('donations.cancel');
-Route::get('/donation/webhook', [DonationController::class, 'webhook'])->name('donations.webhook');
 
-
-
+// Protected Routes
 Route::middleware('auth')->group(function () {
     // Adoption Request
     Route::post('/adoption-request/{pet}', [AdoptionRequestController::class, 'store'])->name('adoption.request');
@@ -65,8 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/{donation}', [DonationController::class, 'show'])->name('donations.show');
     Route::post('/{donation}/allocate', [DonationController::class, 'allocate'])->name('donations.allocate');
     Route::post('/allocation/{allocation}/approve', [DonationController::class, 'approveAllocation'])->name('donations.approve-allocation');
-    });
+});
 
+Route::get('/donations/capture', [DonationController::class, 'capture'])->name('donations.capture');
     // Messages
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');

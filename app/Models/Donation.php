@@ -15,6 +15,7 @@ class Donation extends Model
         'donor_name',
         'donor_email',
         'amount',
+        'remaining_amount',
         'currency',
         'payment_method',
         'transaction_id',
@@ -32,11 +33,23 @@ class Donation extends Model
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'remaining_amount' => 'decimal:2',
     ];
 
     public function allocations()
     {
         return $this->hasMany(DonationAllocation::class);
+    }
+
+    public function getRemainingAmountAttribute()
+    {
+        $allocatedAmount = $this->allocations()->sum('amount');
+        return $this->amount - $allocatedAmount;
+    }
+
+    public function allocated_amount()
+    {
+        return $this->allocations()->sum('amount');
     }
     
     public function user()

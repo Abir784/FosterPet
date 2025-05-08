@@ -58,17 +58,17 @@
 
                             <dt class="col-sm-4">Remaining</dt>
                             <dd class="col-sm-8">
-                                <div class="progress" style="height: 20px;">
-                                    @php
-                                        $percentage = ($donation->remaining_amount / $donation->amount) * 100;
-                                    @endphp
-                                    <div class="progress-bar bg-info" role="progressbar" 
-                                         style="width: {{ $percentage }}%;" 
-                                         aria-valuenow="{{ $percentage }}" 
-                                         aria-valuemin="0" 
-                                         aria-valuemax="100">
-                                        {{ number_format($donation->remaining_amount, 2) }}
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar"
+                                         style="width: {{ ($donation->allocated_amount() / $donation->amount) * 100 }}%"
+                                         aria-valuenow="{{ $donation->allocated_amount() }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="{{ $donation->amount }}">
+                                        ${{ number_format($donation->allocated_amount(), 2) }} allocated
                                     </div>
+                                </div>
+                                <div class="mt-2 text-sm text-gray-600">
+                                    Remaining: ${{ number_format($donation->remaining_amount, 2) }}
                                 </div>
                             </dd>
                         </dl>
@@ -76,7 +76,7 @@
                 </div>
 
                 @if($donation->remaining_amount > 0)
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm mt-4">
                         <div class="card-header bg-success text-white">
                             <h3 class="card-title h5 mb-0">Allocate Funds</h3>
                         </div>
@@ -84,8 +84,8 @@
                             <form action="{{ route('donations.allocate', $donation) }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="amount" class="form-label">Amount</label>
-                                    <input type="number" class="form-control" id="amount" name="amount" 
+                                    <label for="amount" class="form-label">Amount (Available: ${{ number_format($donation->remaining_amount, 2) }})</label>
+                                    <input type="number" step="0.01" max="{{ $donation->remaining_amount }}" class="form-control" id="amount" name="amount"
                                            step="0.01" min="0.01" max="{{ $donation->remaining_amount }}" required>
                                 </div>
                                 <div class="mb-3">
@@ -166,8 +166,8 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if($allocation->status === 'pending')
-                                                        <form action="{{ route('donations.approve-allocation', $allocation) }}" 
+                                                    @if($allocation->status != 'Approved')
+                                                        <form action="{{ route('donations.approve-allocation', $allocation) }}"
                                                               method="POST" class="d-inline">
                                                             @csrf
                                                             <button type="submit" class="btn btn-sm btn-success">

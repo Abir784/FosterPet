@@ -1,16 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Donation;
-use App\Models\DonationAllocation;
-use App\Models\pets;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
+use App\Services\PayPalService;
 use Illuminate\Http\Request;
+use App\Models\Donation;
+use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 
 class DonationController extends Controller
 {
 
+    public function index()
+    {
+        $donations = Donation::with('allocations')->latest()->paginate(10);
+        return view('donations.index', compact('donations'));
+    }
     public function create()
     {
         $pets = pets::all();
@@ -19,45 +25,147 @@ class DonationController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'amount' => 'required|numeric|min:1',
-            'donation_type' => 'required|in:one-time,monthly',
-            'duration' => 'required_if:donation_type,monthly|integer|min:1',
-            'purpose' => 'required|string',
-            'donor_name' => 'required|string',
-            'donor_email' => 'required|email',
-            'pet_id' => 'nullable|exists:pets,id'
-        ]);
+        $messages = [
+            'donor_name.required' => 'Please enter your name.',
+            'donor_name.max' => 'Name cannot be longer than :max characters.',
+            'donor_email.required' => 'Please enter your email address.',
+            'donor_email.email' => 'Please enter a valid email address.',
+            'amount.required' => 'Please enter the donation amount.',
+            'amount.numeric' => 'Amount must be a number.',
+            'amount.min' => 'Amount must be at least $:min.',
+            'purpose.required' => 'Please select a donation purpose.',
+            'donation_type.required' => 'Please select a donation type.',
+            'donation_type.in' => 'Please select either one-time or monthly donation.',
+            'payment_method.required' => 'Please select a payment method.',
+            'payment_method.in' => 'Please select either direct payment or PayPal.',
+            'pet_id.exists' => 'The selected pet does not exist.'
+        ];
 
-        // Generate a unique transaction ID
+        $validated = $request->validate([
+            'donor_name' => 'required|string|max:255',
+            'donor_email' => 'required|email|max:255',
+            'amount' => 'required|numeric|min:1',
+            'purpose' => 'required|string|max:255',
+            'donation_type' => 'required|in:one-time,monthly',
+            'payment_method' => 'required|in:direct,paypal',
+            'pet_id' => 'nullable|exists:pets,id'
+        ], $messages);
+
         $transactionId = 'TRX-' . time() . '-' . rand(1000, 9999);
 
-        // Create donation record
-        $donation = new Donation([
+        if ($validated['payment_method'] === 'paypal') {
+            // PayPal flow
+            try {
+
+
+                $paypalClient = PayPalService::client();
+
+                $requestOrder = new OrdersCreateRequest();
+                $requestOrder->prefer('return=representation');
+
+                $requestOrder->body = [
+                    'intent' => 'CAPTURE',
+                    'purchase_units' => [[
+                        'amount' => [
+                            'currency_code' => 'USD',
+                            'value' => $validated['amount']
+                        ],
+                        'description' => 'Donation for: ' . $validated['purpose'],
+                    ]],
+                    'application_context' => [
+                        'cancel_url' => route('donations.cancel'),
+                        'return_url' => route('donations.capture', [
+                            'donor_name' => $validated['donor_name'],
+                            'donor_email' => $validated['donor_email'],
+                            'amount' => $validated['amount'],
+                            'purpose' => $validated['purpose'],
+                            'donation_type' => $validated['donation_type'],
+                            'pet_id' => $validated['pet_id'] ?? null
+                        ]),
+                    ]
+                ];
+
+                $response = $paypalClient->execute($requestOrder);
+
+
+                foreach ($response->result->links as $link) {
+                    if ($link->rel === 'approve') {
+                        return redirect()->away($link->href);
+                    }
+                }
+
+                return back()->with('error', 'Unable to connect to PayPal.');
+            } catch (\Exception $e) {
+                return back()->with('error', 'PayPal payment failed: ' . $e->getMessage());
+            }
+        }
+
+        // Direct donation flow
+        $donation = Donation::create([
             'donor_name' => $validated['donor_name'],
             'donor_email' => $validated['donor_email'],
             'amount' => $validated['amount'],
+            'remaining_amount' => $validated['amount'],
             'currency' => 'USD',
             'payment_method' => 'direct',
             'purpose' => $validated['purpose'],
             'donation_type' => $validated['donation_type'],
-            'user_id' => auth()->id(),
+            'user_id' => auth()->check() ? auth()->id() : null,
             'pet_id' => $validated['pet_id'] ?? null,
-            'status' => 'completed',
+            'status' => 'received',
             'transaction_id' => $transactionId
         ]);
 
-        if ($validated['donation_type'] === 'monthly') {
-            $duration = (int) $validated['duration'];
-            $donation->start_date = now();
-            $donation->end_date = now()->addMonths($duration);
-        }
-
-        $donation->save();
-
-        return redirect()->route('donations.success',$donation->id)
+        return redirect()->route('donations.success', $donation->id)
             ->with('success', 'Thank you for your donation!');
     }
+
+public function capture(Request $request)
+{
+    try {
+        if (!$request->query('token')) {
+            return redirect()->route('donations.cancel')
+                ->with('error', 'Invalid payment token.');
+        }
+
+        $paypalClient = PayPalService::client();
+        $token = $request->query('token');
+
+        $captureRequest = new OrdersCaptureRequest($token);
+        $captureRequest->prefer('return=representation');
+
+        $response = $paypalClient->execute($captureRequest);
+
+        if ($response->statusCode === 201) {
+            // Payment captured successfully, create donation record
+            $transactionId = 'TRX-' . time() . '-' . rand(1000, 9999);
+            $donation = Donation::create([
+                'donor_name' => $request->query('donor_name'),
+                'donor_email' => $request->query('donor_email'),
+                'amount' => $request->query('amount'),
+                'remaining_amount' => $request->query('amount'),
+                'currency' => 'USD',
+                'payment_method' => 'paypal',
+                'purpose' => $request->query('purpose'),
+                'donation_type' => $request->query('donation_type', 'one-time'),
+                'pet_id' => $request->query('pet_id') ? intval($request->query('pet_id')) : null,
+                'status' => 'received',
+                'transaction_id' => $transactionId
+            ]);
+
+            return redirect()->route('donations.success', $donation->id)
+                ->with('success', 'Thank you for your PayPal donation!');
+        }
+
+        return redirect()->route('donations.cancel')
+            ->with('error', 'Payment was not completed.');
+    } catch (\Exception $e) {
+        return redirect()->route('donations.cancel')
+            ->with('error', 'An error occurred while processing your payment: ' . $e->getMessage());
+    }
+}
+
+
 
     public function success($donationId)
     {
@@ -179,6 +287,7 @@ class DonationController extends Controller
         return redirect()->route('donations.show', $donation)
             ->with('success', 'Allocation created successfully');
     }
+
 
     public function approveAllocation(DonationAllocation $allocation)
     {

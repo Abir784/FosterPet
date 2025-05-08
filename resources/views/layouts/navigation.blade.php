@@ -5,7 +5,6 @@
     <div class="py-4 text-center sidebar-heading fs-4 fw-bold border-bottom">FosterPet </div>
     <div class="list-group list-group-flush sidebar-menu">
       <a href="{{ route('dashboard')}}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
-
       @if(Auth::user()->role === 'admin')
         <a href="#" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-users me-2"></i> Manage Users</a>
         <a href="{{ route('pets.add_pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-plus me-2"></i> Add Pets</a>

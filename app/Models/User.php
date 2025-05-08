@@ -72,4 +72,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Document::class);
     }
+    
+    /**
+     * Get all donations made by the user.
+     */
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
 }

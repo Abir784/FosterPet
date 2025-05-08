@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     // Donations
     Route::prefix('donations')->group(function () {
         Route::get('/', [DonationController::class, 'index'])->name('donations.index');
+        Route::get('/my-donations', [DonationController::class, 'userDonations'])->name('donations.user');
         Route::get('/demo-data', [DonationController::class, 'createDemoData'])->name('donations.demo');
         Route::get('/{donation}', [DonationController::class, 'show'])->name('donations.show');
         Route::post('/{donation}/allocate', [DonationController::class, 'allocate'])->name('donations.allocate');
@@ -82,6 +83,15 @@ Route::middleware('auth')->group(function () {
     Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');
     Route::get("/pets/adopt/show",[AdoptionController::class,"adoption_list"])->name('track.requests');
 
+    // Adoption Routes
+    Route::prefix('adoption')->group(function () {
+        Route::get('/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
+        Route::get('/status', [AdoptionController::class, 'updateStatus'])->name('adoption.status');
+        Route::post('/update/{id}', [AdoptionController::class, 'updateStatus'])->name('adoption.update');
+        Route::get('/{id}', [AdoptionController::class, 'show'])->name('adoption.show');
+        // Add this route to fix the "adoption.index not defined" error
+        Route::get('/', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
+    });
 
     // Add this route to fix the "adoption.index not defined" error
     Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');

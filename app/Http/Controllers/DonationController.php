@@ -11,8 +11,54 @@ class DonationController extends Controller
 {
     public function index()
     {
-        $donations = Donation::with('allocations')->latest()->paginate(10);
-        return view('donations.index', compact('donations'));
+        // If user is logged in, show all donations with a tab for their donations
+        if (Auth::check()) {
+            $allDonations = Donation::with('allocations')->latest()->paginate(10, ['*'], 'all_page');
+            $userDonations = Donation::where('user_id', Auth::id())
+                ->with('allocations')
+                ->latest()
+                ->paginate(10, ['*'], 'user_page');
+                
+            return view('donations.index', compact('allDonations', 'userDonations'));
+        } else {
+            // For guests, just show all donations
+            $donations = Donation::with('allocations')->latest()->paginate(10);
+            return view('donations.index', compact('donations'));
+        }
+    }
+    
+    /**
+     * Display the user's donations and their allocations.
+     */
+    public function userDonations()
+    {
+        // Get user donations with allocations
+        $donations = Auth::user()->donations()
+            ->with(['allocations' => function($query) {
+                $query->orderBy('created_at', 'desc');
+            }])
+            ->latest()
+            ->paginate(10);
+            
+        // Calculate total donated amount
+        $totalDonated = Auth::user()->donations()->sum('amount');
+        
+        // Calculate total allocated amount more efficiently
+        $totalAllocated = DonationAllocation::whereIn('donation_id', Auth::user()->donations()->pluck('id'))
+            ->sum('amount');
+        
+        // Get allocation breakdown by type
+        $allocationTypes = DonationAllocation::whereIn('donation_id', Auth::user()->donations()->pluck('id'))
+            ->select('allocation_type', \DB::raw('SUM(amount) as total'))
+            ->groupBy('allocation_type')
+            ->get()
+            ->pluck('total', 'allocation_type')
+            ->toArray();
+        
+        // Sort allocation types by amount (descending)
+        arsort($allocationTypes);
+            
+        return view('dashboard', compact('donations', 'totalDonated', 'totalAllocated', 'allocationTypes'));
     }
     public function show(Donation $donation)
     {

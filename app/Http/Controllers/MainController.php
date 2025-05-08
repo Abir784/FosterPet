@@ -12,6 +12,17 @@ class MainController extends Controller
         $totalDonations = Donation::sum('amount');
         $totalAllocations = DonationAllocation::where('status', 'approved')->sum('amount');
         
-        return view('index', compact('totalDonations', 'totalAllocations'));
+        // Get allocation breakdown by type
+        $allocationTypes = DonationAllocation::where('status', 'approved')
+            ->select('allocation_type', \DB::raw('SUM(amount) as total'))
+            ->groupBy('allocation_type')
+            ->get()
+            ->pluck('total', 'allocation_type')
+            ->toArray();
+        
+        // Sort allocation types by amount (descending)
+        arsort($allocationTypes);
+        
+        return view('index', compact('totalDonations', 'totalAllocations', 'allocationTypes'));
     }
 }

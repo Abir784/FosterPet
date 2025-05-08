@@ -6,12 +6,11 @@
     <div class="list-group list-group-flush sidebar-menu">
       <a href="{{ route('dashboard')}}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
       @if(Auth::user()->role === 'admin')
-        <a href="#" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-users me-2"></i> Manage Users</a>
+        <a href="{{ route('users.manage') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-users me-2"></i> Manage Users</a>
         <a href="{{ route('pets.add_pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-plus me-2"></i> Add Pets</a>
         <a href="{{ route('show.pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-paw me-2"></i> All Pets</a>
         <a href="{{ route('track.requests') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-clipboard-list me-2"></i> All Applications</a>
         <a href="{{ route('reports.index') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-flag me-2"></i> Reports</a>
-        <a href="{{ route('adoption-responses.index') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-comments me-2"></i> Application Status</a>
         <a href="{{ route('donations.index') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-gift me-2"></i> Donations</a>
         @endif
         
@@ -25,6 +24,7 @@
         <a href="{{ route('adoption.track') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-clipboard-check me-2"></i> My Applications</a>
         <a href="{{ route('documents.index') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-file me-2"></i> Documents</a>
         <a href="{{ route('applicant-types.create')}}" class="list-group-item list-group-item-action bg-dark text-white"><i class="fas fa-file-alt me-2"></i> Application Types</a>
+        <a href="{{ route('donations.user')}}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-hand-holding-heart me-2"></i> My Donations</a>
         @endif
         
       <!-- Common features for all roles -->

@@ -6,6 +6,7 @@
   <title>FosterPet</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: 'Georgia', serif;
@@ -66,6 +67,70 @@
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    
+    /* Enhanced card styles */
+    .allocation-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .allocation-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .allocation-card .card-body {
+      padding: 1.25rem;
+      background: linear-gradient(to right bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+    }
+    
+    /* Progress bar animations */
+    .progress-bar-animated {
+      animation: progress-bar-stripes 1s linear infinite;
+    }
+    
+    .progress-bar-custom {
+      animation: growWidth 1.5s ease-out forwards;
+      transform-origin: left;
+    }
+    
+    @keyframes growWidth {
+      from { width: 0; }
+      to { width: var(--final-width); }
+    }
+    
+    /* Donation impact section */
+    .donation-impact-section {
+      position: relative;
+      padding: 2rem 0;
+    }
+    
+    .donation-impact-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(240,240,240,0.6) 0%, rgba(255,255,255,0.9) 100%);
+      z-index: -1;
+    }
+    
+    .chart-container {
+      position: relative;
+      margin: 0 auto;
+      height: 250px;
+      width: 250px;
+    }
+    
+    /* Type icons */
+    .type-icon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -266,7 +331,7 @@
     </div>
   </section>
   <!-- Donation Statistics -->
-  <section id="donations" class="text-center bg-light">
+  <section id="donations" class="text-center donation-impact-section">
     <div class="container">
       <h2 class="section-title">Donation Impact</h2>
       <div class="row justify-content-center mb-5">
@@ -276,7 +341,7 @@
       </div>
       <div class="row">
         <div class="col-md-6 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
+          <div class="card h-100 border-0 shadow-sm allocation-card">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-center mb-3">
                 <i class="fas fa-gift fa-3x text-primary"></i>
@@ -290,7 +355,7 @@
           </div>
         </div>
         <div class="col-md-6 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
+          <div class="card h-100 border-0 shadow-sm allocation-card">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-center mb-3">
                 <i class="fas fa-chart-pie fa-3x text-primary"></i>
@@ -304,29 +369,184 @@
           </div>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card border-0 shadow-sm">
+      
+      <!-- Donation Allocation Visualization -->
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+          <div class="card border-0 shadow-sm allocation-card">
             <div class="card-body">
-              <h4 class="mb-3">Allocation Progress</h4>
-              <div class="progress" style="height: 25px;">
-                @php
-                  $percentage = $totalDonations > 0 ? ($totalAllocations / $totalDonations) * 100 : 0;
-                @endphp
-                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
-                     role="progressbar"
-                     style="width: {{ $percentage }}%"
-                     aria-valuenow="{{ $percentage }}"
-                     aria-valuemin="0"
-                     aria-valuemax="100">
-                  {{ number_format($percentage, 1) }}% Allocated
+              <h4 class="mb-4">Donation Allocation Visualization</h4>
+              
+              <div class="row align-items-center">
+                <!-- Donut Chart -->
+                <div class="col-md-5">
+                  <div class="chart-container">
+                    <canvas id="donationChart"></canvas>
+                  </div>
+                </div>
+                
+                <!-- Overall Progress -->
+                <div class="col-md-7 text-start">
+                  <h5 class="mb-3">Overall Allocation Progress</h5>
+                  <div class="progress mb-3" style="height: 25px;">
+                    @php
+                      $percentage = $totalDonations > 0 ? ($totalAllocations / $totalDonations) * 100 : 0;
+                    @endphp
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: {{ $percentage }}%"
+                         aria-valuenow="{{ $percentage }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100">
+                      {{ number_format($percentage, 1) }}% Allocated
+                    </div>
+                  </div>
+                  <p class="text-muted">We strive to allocate all donations efficiently to help as many animals as possible.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
+      <!-- Allocation Types Breakdown -->
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="card border-0 shadow-sm allocation-card">
+            <div class="card-body">
+              <h4 class="mb-4">Allocation Breakdown</h4>
+              <div class="row">
+                @forelse($allocationTypes as $type => $amount)
+                  @php
+                    // Determine icon and color based on allocation type
+                    $icon = 'paw';
+                    $color = 'primary';
+                    
+                    if (strpos($type, 'medical') !== false || strpos($type, 'health') !== false) {
+                      $icon = 'stethoscope';
+                      $color = 'danger';
+                    } elseif (strpos($type, 'food') !== false || strpos($type, 'nutrition') !== false) {
+                      $icon = 'utensils';
+                      $color = 'success';
+                    } elseif (strpos($type, 'shelter') !== false || strpos($type, 'housing') !== false) {
+                      $icon = 'home';
+                      $color = 'info';
+                    } elseif (strpos($type, 'rescue') !== false) {
+                      $icon = 'life-ring';
+                      $color = 'warning';
+                    } elseif (strpos($type, 'training') !== false || strpos($type, 'education') !== false) {
+                      $icon = 'graduation-cap';
+                      $color = 'secondary';
+                    } elseif (strpos($type, 'transport') !== false) {
+                      $icon = 'truck';
+                      $color = 'dark';
+                    }
+                    
+                    $typePercentage = $totalAllocations > 0 ? ($amount / $totalAllocations) * 100 : 0;
+                  @endphp
+                  <div class="col-md-6 mb-3">
+                    <div class="card border-0 allocation-card">
+                      <div class="card-body py-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                          <div>
+                            <i class="fas fa-{{ $icon }} type-icon text-{{ $color }}"></i>
+                            <span class="fw-bold text-capitalize">{{ str_replace('_', ' ', $type) }}</span>
+                          </div>
+                          <span class="badge bg-{{ $color }} px-3 py-2">${{ number_format($amount, 2) }}</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                          <div class="progress-bar progress-bar-custom bg-{{ $color }}" role="progressbar" 
+                               style="--final-width: {{ $typePercentage }}%;"
+                               aria-valuenow="{{ $typePercentage }}" 
+                               aria-valuemin="0" 
+                               aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                          <small class="text-muted">{{ number_format($typePercentage, 1) }}% of total allocations</small>
+                          <small class="text-{{ $color }}"><i class="fas fa-chart-line"></i></small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                @empty
+                  <div class="col-12 text-center">
+                    <p class="text-muted">No allocations have been made yet.</p>
+                  </div>
+                @endforelse
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
+    <!-- Chart Initialization Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Get allocation data from PHP
+        const allocationData = {
+          @foreach($allocationTypes as $type => $amount)
+            '{{ str_replace('_', ' ', $type) }}': {{ $amount }},
+          @endforeach
+        };
+        
+        // Set up colors for chart
+        const backgroundColors = [
+          '#dc3545', // danger
+          '#28a745', // success
+          '#17a2b8', // info
+          '#ffc107', // warning
+          '#6c757d', // secondary
+          '#343a40', // dark
+          '#007bff'  // primary
+        ];
+        
+        // Create the chart
+        const ctx = document.getElementById('donationChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(allocationData),
+            datasets: [{
+              data: Object.values(allocationData),
+              backgroundColor: backgroundColors,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'right',
+                labels: {
+                  boxWidth: 15,
+                  font: {
+                    size: 12
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || '';
+                    const value = context.raw;
+                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                    const percentage = Math.round((value / total) * 100);
+                    return `${label}: $${value.toFixed(2)} (${percentage}%)`;
+                  }
+                }
+              }
+            },
+            cutout: '70%',
+            animation: {
+              animateScale: true,
+              animateRotate: true
+            }
+          }
+        });
+      });
+    </script>
   </section>
   <!-- Contact -->
   <section id="contact" class="text-center">

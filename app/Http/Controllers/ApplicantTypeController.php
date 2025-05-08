@@ -5,11 +5,100 @@ namespace App\Http\Controllers;
 use App\Models\AdoptionRequest;
 use App\Models\ApplicantType;
 use App\Models\pets;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ApplicantTypeController extends Controller
 {
+    /**
+     * Display a listing of all users.
+     */
+    public function manageUsers()
+    {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('dashboard')
+                ->with('error', 'You do not have permission to access this page.');
+        }
+        
+        $users = User::orderBy('name')->paginate(10);
+        return view('users.manage', compact('users'));
+    }
+    
+    /**
+     * Show the form for editing a user.
+     */
+    public function editUser(User $user)
+    {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('dashboard')
+                ->with('error', 'You do not have permission to access this page.');
+        }
+        
+        return view('users.edit', compact('user'));
+    }
+    
+    /**
+     * Update the specified user.
+     */
+    public function updateUser(Request $request, User $user)
+    {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('dashboard')
+                ->with('error', 'You do not have permission to access this page.');
+        }
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|in:admin,pet foster,adopter',
+        ]);
+        
+        // Update password if provided
+        if ($request->filled('password')) {
+            $request->validate([
+                'password' => 'required|min:8|confirmed',
+            ]);
+            
+            $user->password = Hash::make($request->password);
+        }
+        
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->role = $validated['role'];
+        $user->save();
+        
+        return redirect()->route('users.manage')
+            ->with('success', 'User updated successfully.');
+    }
+    
+    /**
+     * Delete the specified user.
+     */
+    public function deleteUser(User $user)
+    {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('dashboard')
+                ->with('error', 'You do not have permission to access this page.');
+        }
+        
+        // Prevent deleting yourself
+        if ($user->id === Auth::id()) {
+            return redirect()->route('users.manage')
+                ->with('error', 'You cannot delete your own account.');
+        }
+        
+        $user->delete();
+        
+        return redirect()->route('users.manage')
+            ->with('success', 'User deleted successfully.');
+    }
+    
     // Show the foster application form
     public function create()
     {

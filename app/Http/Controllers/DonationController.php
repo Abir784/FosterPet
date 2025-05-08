@@ -18,8 +18,11 @@ class DonationController extends Controller
                 ->with('allocations')
                 ->latest()
                 ->paginate(10, ['*'], 'user_page');
+            
+            // Also set $donations to $allDonations for compatibility with the view
+            $donations = $allDonations;
                 
-            return view('donations.index', compact('allDonations', 'userDonations'));
+            return view('donations.index', compact('allDonations', 'userDonations', 'donations'));
         } else {
             // For guests, just show all donations
             $donations = Donation::with('allocations')->latest()->paginate(10);
@@ -57,8 +60,17 @@ class DonationController extends Controller
         
         // Sort allocation types by amount (descending)
         arsort($allocationTypes);
+        
+        // Get allocations grouped by donation
+        $donationAllocations = [];
+        foreach ($donations as $donation) {
+            $donationAllocations[$donation->id] = [
+                'donation' => $donation,
+                'allocations' => $donation->allocations->groupBy('allocation_type')
+            ];
+        }
             
-        return view('dashboard', compact('donations', 'totalDonated', 'totalAllocated', 'allocationTypes'));
+        return view('donations.user.index', compact('donations', 'totalDonated', 'totalAllocated', 'allocationTypes', 'donationAllocations'));
     }
     public function show(Donation $donation)
     {

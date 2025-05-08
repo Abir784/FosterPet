@@ -8,17 +8,17 @@
       @if(Auth::user()->role === 'admin')
         <a href="{{ route('users.manage') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-users me-2"></i> Manage Users</a>
         <a href="{{ route('pets.add_pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-plus me-2"></i> Add Pets</a>
-        <a href="{{ route('show.pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-paw me-2"></i> All Pets</a>
+        <a href="{{ route('show.pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-paw me-2"></i> My Pets</a>
         <a href="{{ route('track.requests') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-clipboard-list me-2"></i> All Applications</a>
         <a href="{{ route('reports.index') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-flag me-2"></i> Reports</a>
         <a href="{{ route('donations.index') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-gift me-2"></i> Donations</a>
-        echo '<a href="' . route('show.all.pets') . '" class="text-white list-group-item list-group-item-action bg-dark">See All Pets</a>';
+        <a href="{{ route('show.all.pets') }}" class="text-white list-group-item list-group-item-action bg-dark">See All Pets</a>
 
         @endif
 
         @if(Auth::user()->role === 'pet foster')
         <a href="{{ route('pets.add_pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-plus me-2"></i> Add Pets</a>
-        <a href="{{ route('show.pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-paw me-2"></i> My Foster Pets</a>
+        <a href="{{ route('show.pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-paw me-2"></i> My Pets</a>
         <a href="{{ route('track.requests') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-clipboard-list me-2"></i> Adoption Requests</a>
         @endif
 

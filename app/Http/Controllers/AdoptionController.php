@@ -49,7 +49,6 @@ class AdoptionController extends Controller
         ]);
     }
 
-
     public function show($id)
     {
         $adoptionRequest = AdoptionRequest::with([
@@ -58,11 +57,6 @@ class AdoptionController extends Controller
             'documents',
             'applicantType'
         ])->findOrFail($id);
-
-        // Check if the current user is authorized to view this adoption request
-        if (Auth::id() !== $adoptionRequest->adoption->pet->owner_id && Auth::id() !== $adoptionRequest->adopterID) {
-            abort(403, 'Unauthorized action.');
-        }
 
         return view('adoption.show', compact('adoptionRequest'));
     }

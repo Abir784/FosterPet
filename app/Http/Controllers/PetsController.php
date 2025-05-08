@@ -51,6 +51,13 @@ class PetsController extends Controller
         ]);
     }
 
+    public function show_pet($id)
+    {
+        $pet = pets::with(['adoption'])->findOrFail($id);
+        return view('pets.show_pet', compact('pet'));
+    }
+    
+
     public function update_pets(Request $request){
         // print_r($request->all());
         $request->validate([

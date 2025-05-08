@@ -12,6 +12,7 @@ use App\Http\Controllers\ApplicantTypeController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\AdoptionRequestController;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
@@ -37,9 +38,21 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Pet Details
+Route::get('/pet/{id}', [PetsController::class, 'show_pet'])->name('pet.show');
+
+// Donations
+Route::get('/donate', [DonationController::class, 'create'])->name('donations.create');
+Route::post('/donate', [DonationController::class, 'store'])->name('donations.store');
+Route::get('/donation/success/{id}', [DonationController::class, 'success'])->name('donations.success');
+Route::get('/donation/cancel', [DonationController::class, 'cancel'])->name('donations.cancel');
+Route::get('/donation/webhook', [DonationController::class, 'webhook'])->name('donations.webhook');
+
 
 
 Route::middleware('auth')->group(function () {
+    // Adoption Request
+    Route::post('/adoption-request/{pet}', [AdoptionRequestController::class, 'store'])->name('adoption.request');
 
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportManagementController::class, 'index'])->name('reports.index');
     Route::get('/reports/{report}', [\App\Http\Controllers\Admin\ReportManagementController::class, 'show'])->name('reports.show');

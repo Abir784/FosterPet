@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetsUpdateRequest;
-//use App\Http\Controllers\Illuminate\Http\Request;
 use App\Models\Adoption;
 use App\Models\AdoptionRequest;
 use App\Models\pets;
@@ -24,7 +23,12 @@ class PetsController extends Controller
         return view('pets.add_pets');
     }
 
-    //use Illuminate\Http\Request;
+    public function show_all_pets(){
+        $pets = pets::all();//all for showing
+        return view("pets.show_pets",[
+            'pets'=>$pets,
+        ]);
+    }
 
     public function update_form($id){
         // Find the pet and ensure it belongs to the current user
@@ -65,11 +69,11 @@ class PetsController extends Controller
             'location.required' => 'Location is required',
             'health_condition.required' => 'Health condition is required'
         ]);
-    
+
 
         // Get the pet ID from the URL parameter
         $petId = $request->route('id');
-        
+
         // Find the pet and check if it belongs to the current user
         $pet = pets::where('id', $petId)
                     ->where('owner_id', Auth::id())

@@ -46,12 +46,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/reports/{report}/respond', [\App\Http\Controllers\Admin\ReportManagementController::class, 'respond'])->name('reports.respond');
     // Donations
     Route::prefix('donations')->group(function () {
-        Route::get('/', [DonationController::class, 'index'])->name('donations.index');
-        Route::get('/my-donations', [DonationController::class, 'userDonations'])->name('donations.user');
-        Route::get('/demo-data', [DonationController::class, 'createDemoData'])->name('donations.demo');
-        Route::get('/{donation}', [DonationController::class, 'show'])->name('donations.show');
-        Route::post('/{donation}/allocate', [DonationController::class, 'allocate'])->name('donations.allocate');
-        Route::post('/allocation/{allocation}/approve', [DonationController::class, 'approveAllocation'])->name('donations.approve-allocation');
+    Route::get('/', [DonationController::class, 'index'])->name('donations.index');
+    Route::get('/my-donations', [DonationController::class, 'userDonations'])->name('donations.user');
+    Route::get('/demo-data', [DonationController::class, 'createDemoData'])->name('donations.demo');
+    Route::get('/{donation}', [DonationController::class, 'show'])->name('donations.show');
+    Route::post('/{donation}/allocate', [DonationController::class, 'allocate'])->name('donations.allocate');
+    Route::post('/allocation/{allocation}/approve', [DonationController::class, 'approveAllocation'])->name('donations.approve-allocation');
     });
 
     // Messages
@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/pets/update_post/{id}', [PetsController::class, 'update_pets'])->name('pets.update_pet');
     Route::delete('/pets/delete/{id}', [PetsController::class, 'destroy_pet'])->name('pets.destroy_pet');
     Route::get("/pets/details",[PetsController::class,"show_pets"])->name('show.pets');
+    Route::get('/pets/all', [PetsController::class, 'show_all_pets'])->name('show.all.pets');
     Route::get("/pets/adopt/show",[AdoptionController::class,"adoption_list"])->name('track.requests');
 
     // Adoption Routes
@@ -96,7 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/adoption', [AdoptionController::class, 'show_adoption'])->name('adoption.index');
     //Adopter
     Route::get('/adoption/track', [AdoptionController::class, 'track_adoption'])->name('adoption.track');
-    
+
 
     // Adoption Routes
     Route::prefix('adoption')->group(function () {
@@ -110,7 +111,7 @@ Route::middleware('auth')->group(function () {
     // Applicant Types (Foster Application)
     Route::get('/foster/apply', [ApplicantTypeController::class, 'create'])->name('applicant-types.create'); // Show foster application form
     Route::post('/foster/apply', [ApplicantTypeController::class, 'store'])->name('applicant-types.store'); // Submit foster application
-    
+
     // User Management Routes
     Route::get('/users/manage', [ApplicantTypeController::class, 'manageUsers'])->name('users.manage');
     Route::get('/users/{user}/edit', [ApplicantTypeController::class, 'editUser'])->name('users.edit');

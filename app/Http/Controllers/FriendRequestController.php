@@ -15,6 +15,7 @@ class FriendRequestController extends Controller
     // Fetch all accepted friend requests where the current user is either sender or receiver
     $accepted = FriendRequest::where(function ($query) use ($userId) {
         $query->where('sender_id', $userId)
+        
               ->orWhere('receiver_id', $userId);
     })->where('status', 'accepted')->get();
 
@@ -36,6 +37,7 @@ class FriendRequestController extends Controller
             ->with('sender')
             ->get();
             $users = User::where('id', '!=', $user->id) // Exclude the current user
+            ->where('role', '!=', 'admin') // Exclude admin users
             ->whereDoesntHave('sentRequests', function ($query) use ($user) {
                 $query->where('receiver_id', $user->id)
                       ->whereIn('status', ['pending', 'accepted']);

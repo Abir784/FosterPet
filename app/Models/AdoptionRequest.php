@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AdoptionRequest extends Model
 {
      use HasFactory;
-     
-     protected $fillable = ['adopterID', 'status'];
+     protected $guarded  = ['id'];
+     protected $table = 'adoption_requests';
+
+
+     protected $fillable = ['adoptionID', 'adopterID', 'status'];
 
      /**
       * Relationship to the User (adopter)
@@ -32,7 +35,7 @@ class AdoptionRequest extends Model
      */
     public function documents()
     {
-        return $this->hasMany(Document::class, 'RequestID', 'adoptionID');
+        return $this->hasMany(Document::class, 'RequestID', 'id');
     }
 
     /**

@@ -16,7 +16,7 @@
 
         @endif
 
-        @if(Auth::user()->role === 'pet foster')
+        @if(Auth::user()->role === 'pet shelter')
         <a href="{{ route('pets.add_pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-plus me-2"></i> Add Pets</a>
         <a href="{{ route('show.pets') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-paw me-2"></i> My Pets</a>
         <a href="{{ route('track.requests') }}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-clipboard-list me-2"></i> Adoption Requests</a>

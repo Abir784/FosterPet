@@ -17,9 +17,7 @@
                         <p>Age: {{ $pet->age }}</p>
                         <p>Status: <strong>{{ $pet->status }}</strong></p>
 
-                        <button class="btn btn-outline-primary w-100 mb-2" onclick="toggleDropdown({{ $pet->id }})">
-                            Change Status
-                        </button>
+                 
 
                         <form method="POST" action="{{ route('adoption.update', $pet->id) }}" id="form-{{ $pet->id }}" class="d-none">
                             @csrf

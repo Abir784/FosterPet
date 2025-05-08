@@ -4,32 +4,72 @@ namespace App\Http\Controllers;
 
 use App\Models\Donation;
 use App\Models\DonationAllocation;
+use App\Models\pets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DonationController extends Controller
 {
-    public function index()
+
+    public function create()
     {
-        // If user is logged in, show all donations with a tab for their donations
-        if (Auth::check()) {
-            $allDonations = Donation::with('allocations')->latest()->paginate(10, ['*'], 'all_page');
-            $userDonations = Donation::where('user_id', Auth::id())
-                ->with('allocations')
-                ->latest()
-                ->paginate(10, ['*'], 'user_page');
-            
-            // Also set $donations to $allDonations for compatibility with the view
-            $donations = $allDonations;
-                
-            return view('donations.index', compact('allDonations', 'userDonations', 'donations'));
-        } else {
-            // For guests, just show all donations
-            $donations = Donation::with('allocations')->latest()->paginate(10);
-            return view('donations.index', compact('donations'));
-        }
+        $pets = pets::all();
+        return view('donations.donate', compact('pets'));
     }
-    
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'donation_type' => 'required|in:one-time,monthly',
+            'duration' => 'required_if:donation_type,monthly|integer|min:1',
+            'purpose' => 'required|string',
+            'donor_name' => 'required|string',
+            'donor_email' => 'required|email',
+            'pet_id' => 'nullable|exists:pets,id'
+        ]);
+
+        // Generate a unique transaction ID
+        $transactionId = 'TRX-' . time() . '-' . rand(1000, 9999);
+
+        // Create donation record
+        $donation = new Donation([
+            'donor_name' => $validated['donor_name'],
+            'donor_email' => $validated['donor_email'],
+            'amount' => $validated['amount'],
+            'currency' => 'USD',
+            'payment_method' => 'direct',
+            'purpose' => $validated['purpose'],
+            'donation_type' => $validated['donation_type'],
+            'user_id' => auth()->id(),
+            'pet_id' => $validated['pet_id'] ?? null,
+            'status' => 'completed',
+            'transaction_id' => $transactionId
+        ]);
+
+        if ($validated['donation_type'] === 'monthly') {
+            $duration = (int) $validated['duration'];
+            $donation->start_date = now();
+            $donation->end_date = now()->addMonths($duration);
+        }
+
+        $donation->save();
+
+        return redirect()->route('donations.success',$donation->id)
+            ->with('success', 'Thank you for your donation!');
+    }
+
+    public function success($donationId)
+    {
+        $donation = Donation::findOrFail($donationId);
+        return view('donations.success', ['donation' => $donation]);
+    }
+
+    public function cancel()
+    {
+        return view('donations.cancel');
+    }
+
     /**
      * Display the user's donations and their allocations.
      */
@@ -42,14 +82,14 @@ class DonationController extends Controller
             }])
             ->latest()
             ->paginate(10);
-            
+
         // Calculate total donated amount
         $totalDonated = Auth::user()->donations()->sum('amount');
-        
+
         // Calculate total allocated amount more efficiently
         $totalAllocated = DonationAllocation::whereIn('donation_id', Auth::user()->donations()->pluck('id'))
             ->sum('amount');
-        
+
         // Get allocation breakdown by type
         $allocationTypes = DonationAllocation::whereIn('donation_id', Auth::user()->donations()->pluck('id'))
             ->select('allocation_type', \DB::raw('SUM(amount) as total'))
@@ -57,10 +97,10 @@ class DonationController extends Controller
             ->get()
             ->pluck('total', 'allocation_type')
             ->toArray();
-        
+
         // Sort allocation types by amount (descending)
         arsort($allocationTypes);
-        
+
         // Get allocations grouped by donation
         $donationAllocations = [];
         foreach ($donations as $donation) {
@@ -69,7 +109,7 @@ class DonationController extends Controller
                 'allocations' => $donation->allocations->groupBy('allocation_type')
             ];
         }
-            
+
         return view('donations.user.index', compact('donations', 'totalDonated', 'totalAllocated', 'allocationTypes', 'donationAllocations'));
     }
     public function show(Donation $donation)

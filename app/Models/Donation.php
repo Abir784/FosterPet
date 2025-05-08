@@ -19,14 +19,19 @@ class Donation extends Model
         'payment_method',
         'transaction_id',
         'purpose',
-        'remaining_amount',
         'status',
-        'user_id'
+        'user_id',
+        'pet_id',
+        'donation_type', 
+        'start_date',
+        'end_date',
+        'paypal_payment_id',
+        'paypal_payer_id',
+        'paypal_token'
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
-        'remaining_amount' => 'decimal:2',
     ];
 
     public function allocations()
@@ -37,6 +42,11 @@ class Donation extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function pet()
+    {
+        return $this->belongsTo(pets::class);
     }
     
     /**

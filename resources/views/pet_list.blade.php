@@ -17,7 +17,6 @@
                             Status:<br>
                             <span class="badge bg-success"> {{ $req->status}}</span>
                         </p>
-                        <a href="#" class="mt-4 mb-4 btn btn-primary">Change Status</a> <br>
                         <br>
                         <button class="mb-2 btn btn-outline-primary w-100" onclick="toggleDropdown({{ $req->adoptionID }})">
                             Change Status
@@ -34,7 +33,7 @@
                             </select>
                         </form>
                         <br>
-                        <a href="{{ route('adoption.show', $req->adoptionID) }}" class="btn btn-primary">View Details</a>
+                        <a href="{{ route('adoption.show', $req->id) }}" class="btn btn-primary">View Details</a>
                     </div>
                 </div>
             </div>

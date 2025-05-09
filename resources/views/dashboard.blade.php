@@ -1,26 +1,62 @@
 <x-app-layout>
     <div class="m-5 dashboard-section-container grid grid-cols-1 md:grid-cols-3 gap-6">
+        @if($user_role === 'pet shelter')
+            {{-- Pet Count Card --}}
+            <div class="feature-card text-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <h5 class="text-xl font-semibold mb-4">🐾 Total Pets Listed</h5>
+                <p class="text-6xl font-extrabold text-blue-600">
+                    <b>{{ $pet_count }}</b>
+                </p>
+                <p class="mt-4 text-gray-600">Pets currently listed under your shelter</p>
+            </div>
 
-        {{-- Pet Count Card --}}
-        <div class="feature-card text-center p-8">
-            <h5 class="text-xl font-semibold mb-4">🐾 Total Pets You Own</h5>
-            <p class="text-6xl font-extrabold text-blue-600">
-                <b>{{ $pet_count }}</b>
-            </p>
-            <p class="mt-4 text-gray-600">Pets currently listed under your ownership.</p>
-        </div>
+            {{-- Total Adoption Requests Card --}}
+            <div class="feature-card text-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <h5 class="text-xl font-semibold mb-4">📄 Total Adoption Requests</h5>
+                <p class="text-6xl font-extrabold text-green-600">
+                   <b>{{ $adoption_request_count }}</b>
+                </p>
+                <p class="mt-4 text-gray-600">Total requests received for your pets</p>
+            </div>
 
-        {{-- Adoption Requests Count Card --}}
-        <div class="feature-card text-center p-8">
-            <h5 class="text-xl font-semibold mb-4">📄 Adoption Requests for Your Pets</h5>
-            <p class="text-6xl font-extrabold text-green-600">
-               <b> {{ $adoption_request_count }} </b>
-            </p>
-            <p class="mt-4 text-gray-600">Total requests submitted to adopt your pets.</p>
-        </div>
+            {{-- Pending Requests Card --}}
+            <div class="feature-card text-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <h5 class="text-xl font-semibold mb-4">⏳ Pending Requests</h5>
+                <p class="text-6xl font-extrabold text-yellow-600">
+                   <b>{{ $pending_requests }}</b>
+                </p>
+                <p class="mt-4 text-gray-600">Requests awaiting your response</p>
+            </div>
 
-        {{-- Messages Card --}}
-        <div class="feature-card text-center p-8">
+        @elseif($user_role === 'adopter')
+            {{-- Submitted Requests Card --}}
+            <div class="feature-card text-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <h5 class="text-xl font-semibold mb-4">📝 Total Applications</h5>
+                <p class="text-6xl font-extrabold text-blue-600">
+                    <b>{{ $submitted_requests }}</b>
+                </p>
+                <p class="mt-4 text-gray-600">Total adoption applications submitted</p>
+            </div>
+
+            {{-- Pending Applications Card --}}
+            <div class="feature-card text-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <h5 class="text-xl font-semibold mb-4">⏳ Pending Applications</h5>
+                <p class="text-6xl font-extrabold text-yellow-600">
+                   <b>{{ $pending_requests }}</b>
+                </p>
+                <p class="mt-4 text-gray-600">Applications awaiting shelter response</p>
+            </div>
+
+            {{-- Approved Applications Card --}}
+            <div class="feature-card text-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <h5 class="text-xl font-semibold mb-4">✅ Approved Applications</h5>
+                <p class="text-6xl font-extrabold text-green-600">
+                   <b>{{ $approved_requests }}</b>
+                </p>
+                <p class="mt-4 text-gray-600">Successfully approved adoptions</p>
+            </div>
+        @endif
+        <div class="feature-card text-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h5 class="text-xl font-semibold mb-4">💬 Messages</h5>
             <div class="unread-count text-6xl font-extrabold text-purple-600">
                 <b>0</b>

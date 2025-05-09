@@ -226,39 +226,7 @@ public function capture(Request $request)
         return view('donations.show', compact('donation'));
     }
 
-    public function createDemoData()
-    {
-        // Create demo donations
-        $donations = [
-            [
-                'donor_name' => 'John Doe',
-                'donor_email' => 'john@example.com',
-                'amount' => 1000.00,
-                'payment_method' => 'Credit Card',
-                'transaction_id' => 'TRX' . time() . '1',
-                'purpose' => 'General pet care and medical expenses',
-                'remaining_amount' => 1000.00,
-                'status' => 'received'
-            ],
-            [
-                'donor_name' => 'Jane Smith',
-                'donor_email' => 'jane@example.com',
-                'amount' => 500.00,
-                'payment_method' => 'PayPal',
-                'transaction_id' => 'TRX' . time() . '2',
-                'purpose' => 'Emergency medical fund',
-                'remaining_amount' => 500.00,
-                'status' => 'received'
-            ]
-        ];
 
-        foreach ($donations as $donationData) {
-            Donation::create($donationData);
-        }
-
-        return redirect()->route('donations.index')
-            ->with('success', 'Demo donations created successfully');
-    }
 
     public function allocate(Request $request, Donation $donation)
     {

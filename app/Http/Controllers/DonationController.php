@@ -5,6 +5,7 @@ use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use App\Services\PayPalService;
 use Illuminate\Http\Request;
 use App\Models\Donation;
+use App\Models\DonationAllocation;
 use App\Models\pets;
 use Illuminate\Support\Facades\Auth;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;

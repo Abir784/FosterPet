@@ -266,7 +266,6 @@
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item"><strong>Breed:</strong> {{ $pet->breed }}</li>
                                             <li class="list-group-item"><strong>Age:</strong> {{ $pet->age }} years</li>
-                                            <li class="list-group-item"><strong>Gender:</strong> {{ $pet->gender }}</li>
                                             <li class="list-group-item"><strong>Type:</strong> {{ $pet->type }}</li>
                                             <li class="list-group-item"><strong>Location:</strong> {{ $pet->location }}</li>
                                         </ul>

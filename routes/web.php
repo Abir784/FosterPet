@@ -112,7 +112,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/manage', [ApplicantTypeController::class, 'manageUsers'])->name('users.manage');
     Route::get('/users/{user}/edit', [ApplicantTypeController::class, 'editUser'])->name('users.edit');
     Route::put('/users/{user}', [ApplicantTypeController::class, 'updateUser'])->name('users.update');
-    Route::delete('/users/{user}', [ApplicantTypeController::class, 'deleteUser'])->name('users.delete');
 
     Route::get('/friends', [FriendRequestController::class, 'index'])->name('friends.index');
     Route::post('/friend-request/send', [FriendRequestController::class, 'send'])->name('friends.send');

@@ -45,16 +45,7 @@
                                             <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            
-                                            @if($user->id !== Auth::id())
-                                                <form action="{{ route('users.delete', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </button>
-                                                </form>
-                                            @endif
+                                        
                                         </div>
                                     </td>
                                 </tr>

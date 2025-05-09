@@ -76,28 +76,7 @@ class ApplicantTypeController extends Controller
             ->with('success', 'User updated successfully.');
     }
     
-    /**
-     * Delete the specified user.
-     */
-    public function deleteUser(User $user)
-    {
-        // Check if user is admin
-        if (Auth::user()->role !== 'admin') {
-            return redirect()->route('dashboard')
-                ->with('error', 'You do not have permission to access this page.');
-        }
-        
-        // Prevent deleting yourself
-        if ($user->id === Auth::id()) {
-            return redirect()->route('users.manage')
-                ->with('error', 'You cannot delete your own account.');
-        }
-        
-        $user->delete();
-        
-        return redirect()->route('users.manage')
-            ->with('success', 'User deleted successfully.');
-    }
+    
     
     // Show the foster application form
     public function create()

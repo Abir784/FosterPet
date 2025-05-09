@@ -166,7 +166,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if($allocation->status != 'Approved')
+                                                    @if($allocation->status != 'approved')
                                                         <form action="{{ route('donations.approve-allocation', $allocation) }}"
                                                               method="POST" class="d-inline">
                                                             @csrf

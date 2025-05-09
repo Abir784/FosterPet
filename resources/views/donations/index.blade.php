@@ -2,9 +2,7 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="h4 mb-0">🎁 Donation Tracking</h2>
-            <a href="{{ route('donations.demo') }}" class="btn btn-outline-primary">
-                <i class="fas fa-plus"></i> Load Demo Data
-            </a>
+            
         </div>
 
         @if(session('success'))

@@ -25,18 +25,7 @@ Route::get('/',[MainController::class,'index'])->name('index');
 
 // Dashboard
 
-Route::get('/dashboard', function () {
-    $pet_count = pets::where('owner_id', Auth::id())->count();
-    $adoption_request_count = AdoptionRequest::whereIn('adoptionID', function($query) {
-        $query->select('id')
-            ->from('pets')
-            ->where('owner_id', Auth::id());
-    })->count();
-    return view('dashboard', [
-        'pet_count' => $pet_count,
-        'adoption_request_count' => $adoption_request_count,
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Pet Details
 Route::get('/pet/{id}', [PetsController::class, 'show_pet'])->name('pet.show');
@@ -60,19 +49,13 @@ Route::middleware('auth')->group(function () {
     Route::prefix('donations')->group(function () {
     Route::get('/', [DonationController::class, 'index'])->name('donations.index');
     Route::get('/my-donations', [DonationController::class, 'userDonations'])->name('donations.user');
-    Route::get('/demo-data', [DonationController::class, 'createDemoData'])->name('donations.demo');
     Route::get('/{donation}', [DonationController::class, 'show'])->name('donations.show');
     Route::post('/{donation}/allocate', [DonationController::class, 'allocate'])->name('donations.allocate');
     Route::post('/allocation/{allocation}/approve', [DonationController::class, 'approveAllocation'])->name('donations.approve-allocation');
 });
 
-Route::get('/donations/capture', [DonationController::class, 'capture'])->name('donations.capture');
-    // Messages
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
-    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
-    Route::get('/messages/unread-count', [MessageController::class, 'getUnreadCount'])->name('messages.unread-count');
-
+   
+    
     // Documents
     Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
     Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
@@ -137,8 +120,10 @@ Route::get('/donations/capture', [DonationController::class, 'capture'])->name('
     Route::post('/friend-request/decline/{id}', [FriendRequestController::class, 'decline'])->name('friends.reject');
 
     // Messages
-
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/unread-count', [MessageController::class, 'getUnreadCount'])->name('messages.unread-count');
     Route::post('/message/send', [MessageController::class, 'send'])->name('message.send');
     Route::get('/message/conversation/{userId}', [MessageController::class, 'conversation'])->name('message.conversation');
     Route::post('/message/report', [MessageReportController::class, 'store'])->name('message.report');

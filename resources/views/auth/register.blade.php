@@ -28,12 +28,12 @@
 
       </div>
       <div class="form-group">
-        <label for="type">Account Type (Optional):</label>
-        <select name="type" id="type" class="custom-select">
-          <option value="pet owner">Pet Owner</option>
+        <label for="role">Account Type:</label>
+        <select name="role" id="role" class="custom-select" required>
           <option value="pet shelter">Pet Shelter</option>
           <option value="adopter">Adopter</option>
         </select>
+        <x-input-error :messages="$errors->get('role')" class="mt-2" />
       </div>
 
       <div class="form-group">

@@ -2,7 +2,7 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
   <div class="text-white bg-dark sidebar position-fixed" id="sidebar-wrapper">
-    <div class="py-4 text-center sidebar-heading fs-4 fw-bold border-bottom">FosterPet </div>
+    <a href="{{ route('index') }}" class="text-decoration-none text-white"><div class="py-4 text-center sidebar-heading fs-4 fw-bold border-bottom">FosterPet</div></a>
     <div class="list-group list-group-flush sidebar-menu">
       <a href="{{ route('dashboard')}}" class="text-white list-group-item list-group-item-action bg-dark"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
       @if(Auth::user()->role === 'admin')
@@ -42,19 +42,30 @@
     <!-- Top Navbar -->
     <nav class="px-4 navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <div class="container-fluid">
-        <span class="navbar-brand fw-semibold">Admin Dashboard</span>
-        <div class="d-flex">
-          <a href="#settings" class="btn btn-outline-secondary me-2">Settings</a>
-          {{-- <a href="#logout" class="btn btn-outline-danger">Logout</a> --}}
-          <form method="POST" action="{{ route('logout') }} ">
+        <span class="navbar-brand fw-semibold">
+          @if(Auth::user()->role === 'pet shelter')
+            Shelter Dashboard
+          @elseif(Auth::user()->role === 'adopter')
+            Adopter Dashboard
+          @endif
+        </span>
+        <div class="d-flex align-items-center">
+          <div class="dropdown me-3">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-cog me-1"></i> Settings
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+              <li><a class="dropdown-item" href="{{ route('profile.edit') }}">
+                <i class="fas fa-user-edit me-2"></i> Edit Profile
+              </a></li>
+            </ul>
+          </div>
+          <form method="POST" action="{{ route('logout') }}">
             @csrf
-
-            <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                this.closest('form').submit();"  class="btn btn-outline-danger">
-                {{('Log Out') }}
-            </x-responsive-nav-link>
-        </form>
+            <button type="submit" class="btn btn-outline-danger">
+              <i class="fas fa-sign-out-alt me-1"></i> Log Out
+            </button>
+          </form>
         </div>
       </div>
     </nav>

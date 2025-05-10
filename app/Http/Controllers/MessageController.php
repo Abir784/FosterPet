@@ -14,12 +14,41 @@ class MessageController extends Controller
         $user = Auth::user();
         
         // Get all users who are friends with the current user
-        $friends = $user->friends()
-            ->withPivot('created_at')
-            ->orderBy('friend_requests.created_at', 'desc')
-            ->get();
+        // Get friend IDs for both sides of the relationship
+        $userId = $user->id;
+        
+        // We need to get friend information with the relationship creation timestamp
+        $sentFriends = \App\Models\FriendRequest::where('sender_id', $userId)
+            ->where('status', 'accepted')
+            ->with('receiver')
+            ->get()
+            ->map(function($request) {
+                return [
+                    'user' => $request->receiver,
+                    'created_at' => $request->created_at
+                ];
+            });
             
-        return view('messages.index', compact('friends'));
+        $receivedFriends = \App\Models\FriendRequest::where('receiver_id', $userId)
+            ->where('status', 'accepted')
+            ->with('sender')
+            ->get()
+            ->map(function($request) {
+                return [
+                    'user' => $request->sender,
+                    'created_at' => $request->created_at
+                ];
+            });
+            
+        // Merge both collections
+        $allFriends = $sentFriends->concat($receivedFriends);
+        
+        // Sort by created_at
+        $sortedFriends = $allFriends->sortByDesc('created_at')->map(function($item) {
+            return $item['user'];
+        });
+            
+        return view('messages.index', ['friends' => $sortedFriends]);
     }
 
     public function conversation($userId)

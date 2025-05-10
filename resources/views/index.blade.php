@@ -241,7 +241,6 @@
     <div class="container text-white hero-content">
       <h1 class="display-4 fw-bold">Give a Pet a Second Chance</h1>
       <p class="lead mt-3">Open your heart and home to a pet in need. Fostering saves lives and brings joy.</p>
-      <a class="btn btn-outline-warning mt-3" href="#">Foster Now</a>
     </div>
   </section>
   <!-- About Us -->

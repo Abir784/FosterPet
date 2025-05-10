@@ -42,8 +42,7 @@ class DocumentController extends Controller
 
         // Store the file in the public/documents directory
         $path = $file->storeAs('documents', $filename, 'public');
-        print_r($path);
-        die();
+    
 
         Document::create([
             'RequestID' => $request->RequestID,

@@ -28,22 +28,27 @@ class ReportManagementController extends Controller
 
     public function respond(Request $request, MessageReport $report)
     {
+
+
+
         $validated = $request->validate([
-            'response_content' => 'required|string|max:1000',
+            'notes' => 'required|string|max:1000',
             'action_taken' => 'required|string|max:255',
         ]);
+
+
 
         $response = ReportResponse::create([
             'report_id' => $report->id,
             'admin_id' => Auth::id(),
-            'response_content' => $validated['response_content'],
+            'response_content' => $validated['notes'],
             'action_taken' => $validated['action_taken'],
         ]);
 
         $report->update(['status' => 'resolved']);
 
         // Send email to the reporter
-        Mail::to($report->reporter->email)->send(new \App\Mail\ReportResponseMail($report, $response));
+        // Mail::to($report->reporter->email)->send(new \App\Mail\ReportResponseMail($report, $response));
 
         return back()->with('success', 'Response sent successfully.');
     }

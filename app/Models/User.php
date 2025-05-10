@@ -49,13 +49,27 @@ class User extends Authenticatable
 
 
 
-        // Accepted friends
-        public function friends()
-        {
-        return $this->belongsToMany(User::class, 'friend_requests', 'sender_id', 'receiver_id')
-            ->wherePivot('status', 'accepted')
-            ->withTimestamps();
-        }
+        // Accepted friends (includes both sent and received requests)
+    public function friends()
+    {
+        // Get friend IDs for both sides of the relationship
+        $userId = $this->id;
+        
+        // Get user IDs of friends
+        $sentFriendIds = \App\Models\FriendRequest::where('sender_id', $userId)
+            ->where('status', 'accepted')
+            ->pluck('receiver_id');
+            
+        $receivedFriendIds = \App\Models\FriendRequest::where('receiver_id', $userId)
+            ->where('status', 'accepted')
+            ->pluck('sender_id');
+            
+        // Combine IDs and get users
+        $friendIds = $sentFriendIds->merge($receivedFriendIds);
+        
+        // Query users with these IDs and add the friendship timestamps as a subquery
+        return User::whereIn('id', $friendIds);
+    }
         public function sentRequests()
         {
             return $this->hasMany(FriendRequest::class, 'sender_id');

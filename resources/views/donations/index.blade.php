@@ -2,7 +2,7 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="h4 mb-0">🎁 Donation Tracking</h2>
-            
+
         </div>
 
         @if(session('success'))
@@ -64,17 +64,17 @@
                                                     @php
                                                         $percentage = ($donation->remaining_amount / $donation->amount) * 100;
                                                     @endphp
-                                                    <div class="progress-bar bg-info" role="progressbar" 
-                                                         style="width: {{ $percentage }}%;" 
-                                                         aria-valuenow="{{ $percentage }}" 
-                                                         aria-valuemin="0" 
+                                                    <div class="progress-bar bg-info" role="progressbar"
+                                                         style="width: {{ $percentage }}%;"
+                                                         aria-valuenow="{{ $percentage }}"
+                                                         aria-valuemin="0"
                                                          aria-valuemax="100">
                                                         {{ number_format($donation->remaining_amount, 2) }}
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="{{ route('donations.show', $donation) }}" 
+                                                <a href="{{ route('donations.show', $donation) }}"
                                                    class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-eye"></i> View Details
                                                 </a>
@@ -84,7 +84,7 @@
                                         <tr>
                                             <td colspan="6" class="text-center py-4">
                                                 <div class="text-muted">
-                                                    No donations found. Click "Load Demo Data" to add sample donations.
+                                                    No donations found.
                                                 </div>
                                             </td>
                                         </tr>

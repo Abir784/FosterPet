@@ -34,7 +34,7 @@ class AdoptionController extends Controller
         ]);
 
 
-        $adoption = AdoptionRequest::where("adoptionID",$id)->update([
+        $adoption = AdoptionRequest::where("id",$id)->update([
             'status' => $request->status,
         ]);
 

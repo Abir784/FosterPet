@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                @if($donation->remaining_amount > 0)
+                @if($donation->remaining_amount > 0 && auth()->user()->role == 'admin')
                     <div class="card shadow-sm mt-4">
                         <div class="card-header bg-success text-white">
                             <h3 class="card-title h5 mb-0">Allocate Funds</h3>
